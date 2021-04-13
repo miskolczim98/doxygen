@@ -1,12 +1,15 @@
 #pragma once
 
 #include "qcstring.h"
+#include "textstream.h"
 
 class URLString
 {
 public:
   URLString(const QCString& url);
   URLString(const char* url);
+
+  friend TextStream& operator<<(TextStream& t, const URLString& u);
 
   std::string operator()() const;
   std::string left(int s) const;
@@ -15,7 +18,6 @@ public:
 
   URLString stripWhiteSpace() const;
   URLString& prepend(const QCString& str);
-  URLString& operator=(const QCString& str);
 
   bool operator==(const URLString& url) const;
   bool URLString::isEmpty() const;

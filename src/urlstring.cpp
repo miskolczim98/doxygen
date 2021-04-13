@@ -16,6 +16,11 @@ URLString::URLString(const char* url)
   ParseURL(url);
 }
 
+TextStream& operator<<(TextStream& t, const URLString& u)
+{
+  t << u();
+  return t;
+}
 
 URLString URLString::stripWhiteSpace() const
 {
@@ -41,13 +46,6 @@ char& URLString::at(uint location) const
 URLString& URLString::prepend(const QCString& str)
 {
   *this = URLString(str.str() + (*this)());
-  return *this;
-}
-
-URLString& URLString::operator=(const QCString& str)
-{
-  ParseURL(str.str());
-
   return *this;
 }
 

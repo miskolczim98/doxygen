@@ -2206,7 +2206,7 @@ static void startQuickIndexItem(TextStream &t,const char *l,
     t << " class=\"current\"";
   }
   t << ">";
-  if (l) t << "<a href=\"" << correctURL(l,relPath)() << "\">";
+  if (l) t << "<a href=\"" << correctURL(l,relPath) << "\">";
   t << "<span>";
 }
 

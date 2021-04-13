@@ -21,6 +21,7 @@
 
 #include <memory>
 #include "index.h"
+#include "urlstring.h"
 
 class Definition;
 

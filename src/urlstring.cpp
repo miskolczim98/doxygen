@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <string>
 #include <algorithm>
+#include <cctype>
 
 URLString::URLString()
 {
@@ -65,6 +66,11 @@ std::string URLString::right(int s) const
   return res.substr(res.length() - s);
 }
 
+std::string URLString::lower() const
+{
+  return ((QCString)(*this)()).lower().str();
+}
+
 char& URLString::at(uint location) const
 {
   std::string& res = (*this)();
@@ -75,6 +81,16 @@ char& URLString::at(uint location) const
 size_t URLString::length() const
 {
   return (*this)().size();
+}
+
+int URLString::find(const char* str) const
+{
+  return (*this)().find(str);
+}
+
+int URLString::find(const char c) const
+{
+  return (*this)().find(c);
 }
 
 URLString& URLString::prepend(const QCString& str)

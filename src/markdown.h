@@ -21,6 +21,7 @@
 #include "qcstring.h"
 #include "parserintf.h"
 #include "growbuf.h"
+#include "urlstring.h"
 
 class Entry;
 
@@ -59,7 +60,7 @@ class Markdown
     void processInline(const char *data,int size);
     void writeMarkdownImage(const char *fmt, bool explicitTitle,
                             const QCString &title, const QCString &content,
-                            const QCString &link, const FileDef *fd);
+                            const URLString &link, const FileDef *fd);
     int isHeaderline(const char *data, int size, bool allowAdjustLevel);
     int isAtxHeader(const char *data,int size,
                        QCString &header,QCString &id,bool allowAdjustLevel);

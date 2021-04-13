@@ -1613,7 +1613,7 @@ QCString FileDefImpl::getSourceFileBase() const
 {
   if (Htags::useHtags)
   {
-    return Htags::path2URL(m_filePath);
+    return Htags::path2URL(m_filePath)();
   }
   else
   {

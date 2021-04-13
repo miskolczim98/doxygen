@@ -43,7 +43,7 @@ struct DocLinkInfo
 {
   QCString name;
   QCString ref;
-  QCString url;
+  URLString url;
   QCString anchor;
 };
 
@@ -52,7 +52,7 @@ struct SourceLinkInfo
   QCString file;
   int line;
   QCString ref;
-  QCString url;
+  URLString url;
   QCString anchor;
 };
 

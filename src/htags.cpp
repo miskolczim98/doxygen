@@ -155,9 +155,10 @@ bool Htags::loadFilemap(const QCString &htmlDir)
  *  \param path path name
  *  \returns URL NULL: not found.
  */
-QCString Htags::path2URL(const QCString &path)
+URLString Htags::path2URL(const QCString &path)
 {
-  QCString url,symName=path;
+  URLString url;
+  QCString symName=path;
   QCString dir = g_inputDir.absPath();
   int dl=dir.length();
   if ((int)symName.length()>dl+1)

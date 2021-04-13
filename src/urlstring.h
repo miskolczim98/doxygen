@@ -18,10 +18,14 @@ public:
   std::string left(int s) const;
   std::string mid(uint index, uint len = 0xffffffff) const;
   std::string right(int s) const;
+  std::string lower() const;
 
   char& at(uint location) const;
 
   size_t length() const;
+
+  int find(const char* str) const;
+  int find(const char str) const;
 
   URLString stripWhiteSpace() const;
   URLString& prepend(const QCString& str);

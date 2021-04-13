@@ -711,7 +711,7 @@ void HtmlCodeGenerator::writeTooltip(const char *id, const DocLinkInfo &docInfo,
   {
     m_t << "<a href=\"";
     m_t << externalRef(m_relPath,docInfo.ref,TRUE);
-    m_t << addHtmlExtensionIfMissing(docInfo.url);
+    m_t << addHtmlExtensionIfMissing(docInfo.url().c_str());
     if (!docInfo.anchor.isEmpty())
     {
       m_t << "#" << docInfo.anchor;
@@ -743,7 +743,7 @@ void HtmlCodeGenerator::writeTooltip(const char *id, const DocLinkInfo &docInfo,
     {
       m_t << "<a href=\"";
       m_t << externalRef(m_relPath,defInfo.ref,TRUE);
-      m_t << addHtmlExtensionIfMissing(defInfo.url);
+      m_t << addHtmlExtensionIfMissing(defInfo.url().c_str());
       if (!defInfo.anchor.isEmpty())
       {
         m_t << "#" << defInfo.anchor;
@@ -764,7 +764,7 @@ void HtmlCodeGenerator::writeTooltip(const char *id, const DocLinkInfo &docInfo,
     {
       m_t << "<a href=\"";
       m_t << externalRef(m_relPath,declInfo.ref,TRUE);
-      m_t << addHtmlExtensionIfMissing(declInfo.url);
+      m_t << addHtmlExtensionIfMissing(declInfo.url().c_str());
       if (!declInfo.anchor.isEmpty())
       {
         m_t << "#" << declInfo.anchor;
@@ -2274,7 +2274,7 @@ static void renderQuickLinksAsTree(TextStream &t,const QCString &relPath,LayoutN
     {
       if (entry->visible() && quickLinkVisible(entry->kind()))
       {
-        QCString url = entry->url();
+        URLString url = entry->url();
         t << "<li><a href=\"" << relPath << url << "\"><span>";
         t << fixSpaces(entry->title());
         t << "</span></a>\n";
@@ -2311,15 +2311,15 @@ static void renderQuickLinksAsTabs(TextStream &t,const QCString &relPath,
       {
         if (entry->visible() && quickLinkVisible(entry->kind()))
         {
-          QCString url = entry->url();
-          startQuickIndexItem(t,url,
+          URLString url = entry->url();
+          startQuickIndexItem(t,url().c_str(),
               entry.get()==hlEntry  &&
               (!entry->children().empty() ||
                (entry->kind()==kind && !highlightParent)
               ),
               TRUE,relPath);
           t << fixSpaces(entry->title());
-          endQuickIndexItem(t,url);
+          endQuickIndexItem(t,url().c_str());
         }
       }
       if (hlEntry->parent()==LayoutDocManager::instance().rootNavEntry()) // first row is special as it contains the search box

@@ -98,11 +98,11 @@ class HtmlHelpRecoder
 /** Class representing a field in the HTML help index. */
 struct IndexField
 {
-  IndexField(const char *k,const char *n,const char *u,const char *a,bool l,bool r) :
+  IndexField(const char *k,const char *n, URLString u,const char *a,bool l,bool r) :
     key(k), name(n), url(u), anchor(a), link(l), reversed(r) {}
   QCString key;
   QCString name;
-  QCString url;
+  URLString url;
   QCString anchor;
   bool     link;
   bool     reversed;
@@ -117,7 +117,7 @@ class HtmlHelpIndex
     HtmlHelpIndex(HtmlHelpRecoder &recoder);
    ~HtmlHelpIndex();
     void addItem(const char *first,const char *second,
-                 const char *url, const char *anchor,
+                 URLString url, const char *anchor,
                  bool hasLink,bool reversed);
     void writeFields(std::ostream &t);
     size_t size() const { return m_map.size(); }
@@ -150,7 +150,7 @@ HtmlHelpIndex::~HtmlHelpIndex()
  *         name.
  */
 void HtmlHelpIndex::addItem(const char *level1,const char *level2,
-                       const char *url,const char *anchor,bool hasLink,
+                       URLString url,const char *anchor,bool hasLink,
                        bool reversed)
 {
   static const reg::Ex re(R"(@\d+)");
@@ -172,9 +172,9 @@ void HtmlHelpIndex::addItem(const char *level1,const char *level2,
   m_map.add(key_anchor.c_str(),key.c_str(),url,anchor,hasLink,reversed);
 }
 
-static QCString field2URL(const IndexField *f,bool checkReversed)
+static URLString field2URL(const IndexField *f,bool checkReversed)
 {
-  QCString result = f->url + Doxygen::htmlFileExtension;
+  URLString result = f->url() + Doxygen::htmlFileExtension;
   if (!f->anchor.isEmpty() && (!checkReversed || f->reversed))
   {
     // HTML Help needs colons in link anchors to be escaped in the .hhk file.

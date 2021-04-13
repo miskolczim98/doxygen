@@ -787,7 +787,7 @@ int Markdown::processEmphasis(const char *data,int offset,int size)
 
 void Markdown::writeMarkdownImage(const char *fmt, bool explicitTitle,
                                   const QCString &title, const QCString &content,
-                                  const QCString &link, const FileDef *fd)
+                                  const URLString &link, const FileDef *fd)
 {
   m_out.addStr("@image{inline} ");
   m_out.addStr(fmt);
@@ -816,7 +816,7 @@ int Markdown::processLink(const char *data,int,int size)
 {
   TRACE(data);
   QCString content;
-  QCString link;
+  URLString link;
   QCString title;
   int contentStart,contentEnd,linkStart,titleStart,titleEnd;
   bool isImageLink = FALSE;
@@ -909,7 +909,12 @@ int Markdown::processLink(const char *data,int,int size)
     nlTotal += nl;
     nl = 0;
     if (i>=size || data[i]=='\n') return 0;
-    convertStringFragment(link,data+linkStart,i-linkStart);
+
+    QCString link_str = link();
+    convertStringFragment(link_str,data+linkStart,i-linkStart);
+    link = link_str;
+
+
     link = link.stripWhiteSpace();
     //printf("processLink: link={%s}\n",link.data());
     if (link.isEmpty()) return 0;
@@ -967,7 +972,9 @@ int Markdown::processLink(const char *data,int,int size)
     }
     if (i>=size) return 0;
     // extract link
-    convertStringFragment(link,data+linkStart,i-linkStart);
+    QCString link_str = link();
+    convertStringFragment(link_str,data+linkStart,i-linkStart);
+    link = link_str;
     //printf("processLink: link={%s}\n",link.data());
     link = link.stripWhiteSpace();
     if (link.isEmpty()) // shortcut link
@@ -1034,7 +1041,7 @@ int Markdown::processLink(const char *data,int,int size)
     bool ambig;
     FileDef *fd=0;
     if (link.find("@ref ")!=-1 || link.find("\\ref ")!=-1 ||
-        (fd=findFileDef(Doxygen::imageNameLinkedMap,link,ambig)))
+        (fd=findFileDef(Doxygen::imageNameLinkedMap,link().c_str(),ambig)))
         // assume doxygen symbol link or local image link
     {
       writeMarkdownImage("html",    explicitTitle, title, content, link, fd);
@@ -1045,7 +1052,7 @@ int Markdown::processLink(const char *data,int,int size)
     else
     {
       m_out.addStr("<img src=\"");
-      m_out.addStr(link);
+      m_out.addStr(link());
       m_out.addStr("\" alt=\"");
       m_out.addStr(content);
       m_out.addStr("\"");
@@ -1060,7 +1067,7 @@ int Markdown::processLink(const char *data,int,int size)
   }
   else
   {
-    SrcLangExt lang = getLanguageFromFileName(link);
+    SrcLangExt lang = getLanguageFromFileName(link());
     int lp=-1;
     if ((lp=link.find("@ref "))!=-1 || (lp=link.find("\\ref "))!=-1 || (lang==SrcLangExt_Markdown && !isURL(link)))
         // assume doxygen symbol link
@@ -1068,9 +1075,9 @@ int Markdown::processLink(const char *data,int,int size)
       if (lp==-1) // link to markdown page
       {
         m_out.addStr("@ref ");
-        if (!(Portable::isAbsolutePath(link) || isURL(link)))
+        if (!(Portable::isAbsolutePath(link().c_str()) || isURL(link)))
         {
-          FileInfo forg(link.str());
+          FileInfo forg(link());
           if (forg.exists() && forg.isReadable())
           {
             link = forg.absFilePath();
@@ -1078,7 +1085,7 @@ int Markdown::processLink(const char *data,int,int size)
           else if (!(forg.exists() && forg.isReadable()))
           {
             FileInfo fi(m_fileName.str());
-            QCString mdFile = m_fileName.left(m_fileName.length()-(uint)fi.fileName().length()) + link;
+            QCString mdFile = m_fileName.left(m_fileName.length()-(uint)fi.fileName().length()) + link();
             FileInfo fmd(mdFile.str());
             if (fmd.exists() && fmd.isReadable())
             {
@@ -1087,7 +1094,7 @@ int Markdown::processLink(const char *data,int,int size)
           }
         }
       }
-      m_out.addStr(link);
+      m_out.addStr(link());
       m_out.addStr(" \"");
       if (explicitTitle && !title.isEmpty())
       {
@@ -1102,7 +1109,7 @@ int Markdown::processLink(const char *data,int,int size)
     else if (link.find('/')!=-1 || link.find('.')!=-1 || link.find('#')!=-1)
     { // file/url link
       m_out.addStr("<a href=\"");
-      m_out.addStr(link);
+      m_out.addStr(link());
       m_out.addStr("\"");
       for (int ii = 0; ii < nlTotal; ii++) m_out.addStr("\n");
       if (!title.isEmpty())

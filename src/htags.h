@@ -15,6 +15,8 @@
 #ifndef HTAGS_H
 #define HTAGS_H
 
+#include "urlstring.h"
+
 class QCString;
 
 /** This class is a namespace for HTAGS related functions */
@@ -22,7 +24,7 @@ struct Htags
 {
   static bool useHtags;
   static bool loadFilemap(const QCString &htmldir);
-  static QCString path2URL(const QCString &path);
+  static URLString path2URL(const QCString &path);
   static bool execute(const QCString &htmldir);
 };
 

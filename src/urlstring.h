@@ -6,10 +6,12 @@
 class URLString
 {
 public:
+  URLString();
   URLString(const QCString& url);
   URLString(const char* url);
 
   friend TextStream& operator<<(TextStream& t, const URLString& u);
+  friend std::ostream& operator<< (std::ostream& stream, const URLString& url);
 
   std::string operator()() const;
   std::string left(int s) const;

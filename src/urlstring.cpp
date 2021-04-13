@@ -4,6 +4,12 @@
 #include <string>
 #include <algorithm>
 
+URLString::URLString()
+{
+  _protocol = _userinfo = _host = _port = _path =
+    _query = _fragment = "";
+}
+
 URLString::URLString(const QCString& url)
 {
   std::string loc_url = url;
@@ -20,6 +26,12 @@ TextStream& operator<<(TextStream& t, const URLString& u)
 {
   t << u();
   return t;
+}
+
+std::ostream& operator<< (std::ostream& stream, const URLString& url)
+{
+  stream << url();
+  return stream;
 }
 
 URLString URLString::stripWhiteSpace() const
@@ -78,14 +90,14 @@ void URLString::ParseProtocol(const std::string& loc_url)
 
   std::string protocol = loc_url.substr(0, comma_location);
 
-  if (!(protocol == "http" || protocol == "https" ||
+  if (protocol == "http" || protocol == "https" ||
     protocol == "ftp" || protocol == "ftps" ||
     protocol == "sftp" || protocol == "file" ||
     protocol == "news" || protocol == "irc" ||
-    protocol == "ircs"))
-    throw std::invalid_argument("Invalid URL: Unsupported protocol added.");
-
-  _protocol = protocol;
+    protocol == "ircs")
+    _protocol = protocol;
+  else
+    _protocol = "";
 }
 
 void URLString::ParseAuthority(const std::string& loc_url)
@@ -113,10 +125,6 @@ void URLString::ParseAuthority(const std::string& loc_url)
     ParseHost(authority);
     ParsePort(authority);
   }
-  else if (authority_slashes_begin >= loc_url.size())
-    throw std::invalid_argument("Invalid URL: Only protocol added.");
-  else if (loc_url.substr(authority_slashes_begin, 1) != "/")
-    throw std::invalid_argument("Invalid URL: Invalid authority format.");
   else
     _userinfo = _host = _port = "";
 }
@@ -168,39 +176,34 @@ void URLString::ParsePort(const std::string& loc_authority)
 
 void URLString::ParsePath(const std::string& loc_url)
 {
-  size_t path_begin = GetProtocol().size() + GetAuthority().size();
+  size_t path_begin = static_cast<size_t>(GetProtocol().size()) + GetAuthority().size();
 
-  if (loc_url.substr(path_begin, 1) == "/")
+  size_t first_query_loc = loc_url.substr(path_begin, loc_url.size() - (path_begin)).find("?");
+
+  if (first_query_loc != std::string::npos)
   {
-    size_t first_query_loc = loc_url.substr(path_begin, loc_url.size() - (path_begin)).find("?");
+    first_query_loc += path_begin;
+    _path = first_query_loc < path_begin ? "" : loc_url.substr(path_begin, first_query_loc - path_begin);
 
-    if (first_query_loc != std::string::npos)
-    {
-      first_query_loc += path_begin;
-      _path = first_query_loc < path_begin ? "" : loc_url.substr(path_begin, first_query_loc - path_begin);
-
-      return;
-    }
-
-    size_t first_fragment_loc = loc_url.substr(path_begin, loc_url.size() - path_begin).find("#");
-
-    if (first_fragment_loc != std::string::npos)
-    {
-      first_fragment_loc += path_begin;
-      _path = first_fragment_loc < path_begin ? "" : loc_url.substr(path_begin, first_fragment_loc - path_begin);
-
-      return;
-    }
-
-    _path = loc_url.substr(path_begin, loc_url.size() - path_begin);
+    return;
   }
-  else
-    _path = "";
+
+  size_t first_fragment_loc = loc_url.substr(path_begin, loc_url.size() - path_begin).find("#");
+
+  if (first_fragment_loc != std::string::npos)
+  {
+    first_fragment_loc += path_begin;
+    _path = first_fragment_loc < path_begin ? "" : loc_url.substr(path_begin, first_fragment_loc - path_begin);
+
+    return;
+  }
+
+  _path = loc_url.substr(path_begin, loc_url.size() - path_begin);
 }
 
 void URLString::ParseQuery(const std::string& loc_url)
 {
-  size_t query_begin = GetProtocol().size() + GetAuthority().size() + GetPath().size();
+  size_t query_begin = static_cast<size_t>(GetProtocol().size()) + GetAuthority().size() + GetPath().size();
 
   if (loc_url.size() == query_begin || loc_url.substr(query_begin, 1) != "?")
   {
@@ -225,7 +228,7 @@ void URLString::ParseQuery(const std::string& loc_url)
 
 void URLString::ParseFragment(const std::string& loc_url)
 {
-  size_t fragment_begin = GetProtocol().size() + GetAuthority().size() + GetPath().size() + GetQuery().size();
+  size_t fragment_begin = static_cast<size_t>(GetProtocol().size()) + GetAuthority().size() + GetPath().size() + GetQuery().size();
 
   _fragment = fragment_begin == loc_url.size() || loc_url.substr(fragment_begin, 1) != "#"
     ? ""
@@ -234,7 +237,7 @@ void URLString::ParseFragment(const std::string& loc_url)
 
 std::string URLString::GetProtocol() const
 {
-  return _protocol + ":";
+  return _protocol == "" ? _protocol : _protocol + ":";
 }
 
 std::string URLString::GetAuthority() const

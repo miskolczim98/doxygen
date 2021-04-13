@@ -6,8 +6,19 @@ class URLString
 {
 public:
   URLString(const QCString& url);
+  URLString(const char* url);
 
   std::string operator()() const;
+  std::string left(int s) const;
+
+  char& at(uint location) const;
+
+  URLString stripWhiteSpace() const;
+  URLString& prepend(const QCString& str);
+  URLString& operator=(const QCString& str);
+
+  bool operator==(const URLString& url) const;
+  bool URLString::isEmpty() const;
 
 private:
   std::string GetProtocol() const;
@@ -16,6 +27,7 @@ private:
   std::string GetQuery() const;
   std::string GetFragment() const;
 
+  void ParseURL(const std::string& url);
   void ParseProtocol(const std::string& url);
   void ParseAuthority(const std::string& url);
   void ParseUserInfo(const std::string& authority);

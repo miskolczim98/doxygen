@@ -4940,20 +4940,20 @@ static void writeIndexHierarchyEntries(OutputList &ol,const LayoutNavEntryList &
         case LayoutNavEntry::User:
           {
             // prepend a ! or ^ marker to the URL to avoid tampering with it
-            QCString url = correctURL(lne->url(),"!"); // add ! to relative URL
+            URLString url = correctURL(lne->url(),"!"); // add ! to relative URL
             bool isRelative=url.at(0)=='!';
             if (!url.isEmpty() && !isRelative) // absolute URL
             {
               url.prepend("^"); // prepend ^ to absolute URL
             }
             bool isRef = lne->baseFile().left(4)=="@ref" || lne->baseFile().left(4)=="\\ref";
-            Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url,0,FALSE,isRef || isRelative);
+            Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url().c_str(),0,FALSE,isRef || isRelative);
           }
           break;
         case LayoutNavEntry::UserGroup:
           if (addToIndex)
           {
-            QCString url = correctURL(lne->url(),"!"); // add ! to relative URL
+            URLString url = correctURL(lne->url(),"!"); // add ! to relative URL
             if (!url.isEmpty())
             {
               if (url=="![none]")
@@ -4968,7 +4968,7 @@ static void writeIndexHierarchyEntries(OutputList &ol,const LayoutNavEntryList &
                   url.prepend("^"); // prepend ^ to absolute URL
                 }
                 bool isRef = lne->baseFile().left(4)=="@ref" || lne->baseFile().left(4)=="\\ref";
-                Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url,0,FALSE,isRef || isRelative);
+                Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url().c_str(),0,FALSE,isRef || isRelative);
               }
             }
             else

@@ -1626,8 +1626,8 @@ void HtmlDocVisitor::visitPre(DocHRef *href)
   }
   else
   {
-    QCString url = correctURL(href->url(),href->relPath());
-    m_t << "<a href=\"" << convertToHtml(url)  << "\""
+    URLString url = correctURL(href->url(),href->relPath());
+    m_t << "<a href=\"" << convertToHtml(url().c_str())  << "\""
         << htmlAttribsToString(href->attribs()) << ">";
   }
 }
@@ -1701,7 +1701,7 @@ void HtmlDocVisitor::visitPre(DocImage *img)
     }
     else
     {
-      src = correctURL(url,img->relPath());
+      src = correctURL(url,img->relPath())();
     }
     if (typeSVG && !inlineImage)
     {

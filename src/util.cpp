@@ -6592,9 +6592,9 @@ QCString getLanguageSpecificSeparator(SrcLangExt lang,bool classScope)
   }
 }
 /** Checks whether the given url starts with a supported protocol */
-bool isURL(const QCString &url)
+bool isURL(const URLString &url)
 {
-  QCString loc_url = url.stripWhiteSpace();
+  URLString loc_url = url.stripWhiteSpace();
   return loc_url.left(5)=="http:" || loc_url.left(6)=="https:" ||
          loc_url.left(4)=="ftp:"  || loc_url.left(5)=="ftps:"  ||
          loc_url.left(5)=="sftp:" || loc_url.left(5)=="file:"  ||
@@ -6604,9 +6604,9 @@ bool isURL(const QCString &url)
 /** Corrects URL \a url according to the relative path \a relPath.
  *  Returns the corrected URL. For absolute URLs no correction will be done.
  */
-QCString correctURL(const QCString &url,const QCString &relPath)
+URLString correctURL(const URLString &url,const QCString &relPath)
 {
-  QCString result = url;
+  URLString result = url;
   if (!relPath.isEmpty() && !isURL(url))
   {
     result.prepend(relPath);

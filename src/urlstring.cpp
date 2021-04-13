@@ -8,11 +8,67 @@ URLString::URLString(const QCString& url)
 {
   std::string loc_url = url;
 
-  ParseProtocol(loc_url);
-  ParseAuthority(loc_url);
-  ParsePath(loc_url);
-  ParseQuery(loc_url);
-  ParseFragment(loc_url);
+  ParseURL(loc_url);
+}
+
+URLString::URLString(const char* url)
+{
+  ParseURL(url);
+}
+
+
+URLString URLString::stripWhiteSpace() const
+{
+  std::string result = (*this)();
+
+  for (size_t i = 0, j = 0; result[j] = result[i]; j += !isspace(result[i++]));
+
+  return URLString(result);
+}
+
+std::string URLString::left(int s) const
+{
+  return (*this)().substr(0, s);
+}
+
+char& URLString::at(uint location) const
+{
+  std::string& res = (*this)();
+
+  return res.at(location);
+}
+
+URLString& URLString::prepend(const QCString& str)
+{
+  *this = URLString(str.str() + (*this)());
+  return *this;
+}
+
+URLString& URLString::operator=(const QCString& str)
+{
+  ParseURL(str.str());
+
+  return *this;
+}
+
+bool URLString::operator==(const URLString& url) const
+{
+  return (*this)() == url();
+}
+
+bool URLString::isEmpty() const
+{
+  return _protocol == "" && _userinfo == "" && _host == "" &&
+    _port == "" && _path == "" && _query == "" && _fragment == "";
+}
+
+void URLString::ParseURL(const std::string& url)
+{
+  ParseProtocol(url);
+  ParseAuthority(url);
+  ParsePath(url);
+  ParseQuery(url);
+  ParseFragment(url);
 }
 
 void URLString::ParseProtocol(const std::string& loc_url)

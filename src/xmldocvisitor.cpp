@@ -29,6 +29,7 @@
 #include "emoji.h"
 #include "filedef.h"
 #include "fileinfo.h"
+#include "urlstring.h"
 
 static void visitCaption(XmlDocVisitor *parent, const DocNodeList &children)
 {
@@ -914,7 +915,7 @@ void XmlDocVisitor::visitPre(DocImage *img)
 {
   if (m_hide) return;
 
-  QCString url = img->url();
+  URLString url = img->url();
   QCString baseName;
   if (url.isEmpty())
   {
@@ -922,7 +923,7 @@ void XmlDocVisitor::visitPre(DocImage *img)
   }
   else
   {
-    baseName = correctURL(url,img->relPath());
+    baseName = correctURL(url,img->relPath())();
   }
   HtmlAttribList attribs = img->attribs();
   auto it = std::find_if(attribs.begin(),attribs.end(),

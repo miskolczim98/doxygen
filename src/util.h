@@ -37,6 +37,7 @@
 #include "regex.h"
 #include "dir.h"
 #include "conceptdef.h"
+#include "urlstring.h"
 
 //--------------------------------------------------------------------
 
@@ -424,9 +425,9 @@ bool copyFile(const QCString &src,const QCString &dest);
 QCString extractBlock(const QCString text,const QCString marker);
 int lineBlock(const QCString text,const QCString marker);
 
-bool isURL(const QCString &url);
+bool isURL(const URLString &url);
 
-QCString correctURL(const QCString &url,const QCString &relPath);
+URLString correctURL(const URLString &url,const QCString &relPath);
 
 QCString processMarkup(const QCString &s);
 

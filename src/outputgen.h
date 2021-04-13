@@ -26,6 +26,7 @@
 #include "index.h"
 #include "section.h"
 #include "textstream.h"
+#include "urlstring.h"
 
 class ClassDiagram;
 class DotClassGraph;
@@ -222,7 +223,7 @@ class BaseOutputDocInterface : public CodeOutputInterface
     /*! Starts a (link to an) URL found in the documentation.
      *  \param url    The URL to link to.
      */
-    virtual void startHtmlLink(const char *url) = 0;
+    virtual void startHtmlLink(URLString url) = 0;
 
     /*! Ends a link started by startHtmlLink().
      */

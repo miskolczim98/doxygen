@@ -191,7 +191,7 @@ void RTFDocVisitor::visit(DocURL *u)
     m_t <<   "}"
              "{\\fldrslt "
                "{\\cs37\\ul\\cf2 ";
-    filter(u->url());
+    filter(u->url()().c_str());
     m_t <<     "}"
              "}"
            "}\n";
@@ -199,7 +199,7 @@ void RTFDocVisitor::visit(DocURL *u)
   else
   {
     m_t << "{\\f2 ";
-    filter(u->url());
+    filter(u->url()().c_str());
     m_t << "}";
   }
   m_lastIsPara=FALSE;
@@ -1099,7 +1099,7 @@ void RTFDocVisitor::visitPre(DocHRef *href)
   DBG_RTF("{\\comment RTFDocVisitor::visitPre(DocHRef)}\n");
   if (Config_getBool(RTF_HYPERLINKS))
   {
-    if (href->url().startsWith("#CITEREF"))
+    if (((QCString)href->url()()).startsWith("#CITEREF"))
     {
       // when starting with #CITEREF it is a doxygen generated "url"a
       // so a local link

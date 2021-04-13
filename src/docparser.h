@@ -26,6 +26,7 @@
 #include "qcstring.h"
 #include "docvisitor.h"
 #include "htmlattrib.h"
+#include "urlstring.h"
 
 class DocNode;
 class MemberDef;
@@ -236,15 +237,15 @@ class DocLinkedWord : public DocNode
 class DocURL : public DocNode
 {
   public:
-    DocURL(DocNode *parent,const QCString &url,bool isEmail) :
+    DocURL(DocNode *parent,const URLString &url,bool isEmail) :
       m_url(url), m_isEmail(isEmail) { m_parent=parent; }
-    QCString url() const        { return m_url; }
+    URLString url() const        { return m_url; }
     Kind kind() const          { return Kind_URL; }
     void accept(DocVisitor *v) { v->visit(this); }
     bool isEmail() const       { return m_isEmail; }
 
   private:
-    QCString  m_url;
+    URLString  m_url;
     bool m_isEmail = false;
 };
 
@@ -746,7 +747,7 @@ class DocImage : public CompAccept<DocImage>
     QCString width() const      { return m_width; }
     QCString height() const     { return m_height; }
     QCString relPath() const    { return m_relPath; }
-    QCString url() const        { return m_url; }
+    URLString url() const        { return m_url; }
     bool isInlineImage() const  { return m_inlineImage; }
     bool isSVG() const;
     const HtmlAttribList &attribs() const { return m_attribs; }
@@ -759,7 +760,7 @@ class DocImage : public CompAccept<DocImage>
     QCString  m_width;
     QCString  m_height;
     QCString  m_relPath;
-    QCString  m_url;
+    URLString  m_url;
     bool      m_inlineImage = false;
 };
 
@@ -913,18 +914,18 @@ class DocInternalRef : public CompAccept<DocInternalRef>
 class DocHRef : public CompAccept<DocHRef>
 {
   public:
-    DocHRef(DocNode *parent,const HtmlAttribList &attribs,const QCString &url,
+    DocHRef(DocNode *parent,const HtmlAttribList &attribs,const URLString &url,
            const QCString &relPath) :
       m_attribs(attribs), m_url(url), m_relPath(relPath) { m_parent = parent; }
     int parse();
-    QCString url() const        { return m_url; }
+    URLString url() const        { return m_url; }
     QCString relPath() const    { return m_relPath; }
     Kind kind() const           { return Kind_HRef; }
     const HtmlAttribList &attribs() const { return m_attribs; }
 
   private:
     HtmlAttribList m_attribs;
-    QCString   m_url;
+    URLString   m_url;
     QCString   m_relPath;
 };
 

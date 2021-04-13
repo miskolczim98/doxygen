@@ -630,7 +630,7 @@ void PerlModDocVisitor::visit(DocEmoji *sy)
 void PerlModDocVisitor::visit(DocURL *u)
 {
   openItem("url");
-  m_output.addFieldQuotedString("content", u->url());
+  m_output.addFieldQuotedString("content", u->url()().c_str());
   closeItem();
 }
 

@@ -7,6 +7,7 @@ class URLString
 {
 public:
   URLString();
+  URLString(const std::string& url);
   URLString(const QCString& url);
   URLString(const char* url);
 
@@ -15,11 +16,16 @@ public:
 
   std::string operator()() const;
   std::string left(int s) const;
+  std::string mid(uint index, uint len = 0xffffffff) const;
+  std::string right(int s) const;
 
   char& at(uint location) const;
 
+  size_t length() const;
+
   URLString stripWhiteSpace() const;
   URLString& prepend(const QCString& str);
+  URLString& operator+= (const QCString& str);
 
   bool operator==(const URLString& url) const;
   bool URLString::isEmpty() const;

@@ -170,7 +170,7 @@ class DocbookGenerator : public OutputGenerator
     void startParagraph(const char *);
     void endParagraph();
     void writeObjectLink(const char *,const char *,const char *,const char *);
-    void startHtmlLink(const char *){DB_GEN_NEW};
+    void startHtmlLink(URLString){DB_GEN_NEW};
     void endHtmlLink(){DB_GEN_NEW};
     void startBold();
     void endBold();

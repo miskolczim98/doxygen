@@ -39,7 +39,7 @@ class TextDocVisitor : public DocVisitor
     void visit(DocWhiteSpace *)   { m_t << " ";       }
     void visit(DocSymbol *);
     void visit(DocEmoji *);
-    void visit(DocURL *u)         { filter(u->url());  }
+    void visit(DocURL *u)         { filter(u->url()().c_str());  }
     void visit(DocLineBreak *)    { m_t << " ";       }
     void visit(DocHorRuler *)     {}
     void visit(DocStyleChange *)  {}

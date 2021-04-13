@@ -152,7 +152,7 @@ class OutputList : public OutputDocInterface
     { forall(&OutputGenerator::startTextLink,file,anchor); }
     void endTextLink()
     { forall(&OutputGenerator::endTextLink); }
-    void startHtmlLink(const char *url)
+    void startHtmlLink(URLString url)
     { forall(&OutputGenerator::startHtmlLink,url); }
     void endHtmlLink()
     { forall(&OutputGenerator::endHtmlLink); }

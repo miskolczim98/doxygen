@@ -1116,12 +1116,12 @@ void LatexGenerator::endIndexItem(const char *ref,const char *fn)
 //}
 
 
-void LatexGenerator::startHtmlLink(const char *url)
+void LatexGenerator::startHtmlLink(URLString url)
 {
   if (Config_getBool(PDF_HYPERLINKS))
   {
     m_t << "\\href{";
-    m_t << latexFilterURL(url);
+    m_t << latexFilterURL(url().c_str());
     m_t << "}";
   }
   m_t << "{\\texttt{ ";

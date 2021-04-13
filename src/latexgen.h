@@ -163,7 +163,7 @@ class LatexGenerator : public OutputGenerator
 
     void startTextLink(const char *,const char *);
     void endTextLink();
-    void startHtmlLink(const char *url);
+    void startHtmlLink(URLString url);
     void endHtmlLink();
     void startTypewriter() { m_t << "{\\ttfamily "; }
     void endTypewriter()   { m_t << "}";      }

@@ -37,6 +37,7 @@
 #include "classdef.h"
 #include "utf8.h"
 #include "classlist.h"
+#include "urlstring.h"
 
 //---------------------------------------------------------------------------------------------
 // the following part is for the server based search engine
@@ -87,9 +88,9 @@ void SearchIndex::setCurrentDoc(const Definition *ctx,const char *anchor,bool is
   if (ctx==0) return;
   assert(!isSourceFile || ctx->definitionType()==Definition::TypeFile);
   //printf("SearchIndex::setCurrentDoc(%s,%s,%s)\n",name,baseName,anchor);
-  QCString url=isSourceFile ? (toFileDef(ctx))->getSourceFileBase() : ctx->getOutputFileBase();
+  URLString url=isSourceFile ? (toFileDef(ctx))->getSourceFileBase() : ctx->getOutputFileBase();
   url+=Config_getString(HTML_FILE_EXTENSION);
-  QCString baseUrl = url;
+  URLString baseUrl = url;
   if (anchor) url+=QCString("#")+anchor;
   if (!isSourceFile) baseUrl=url;
   QCString name=ctx->qualifiedName();
@@ -163,16 +164,16 @@ void SearchIndex::setCurrentDoc(const Definition *ctx,const char *anchor,bool is
     }
   }
 
-  auto it = m_url2IdMap.find(baseUrl.str());
+  auto it = m_url2IdMap.find(baseUrl());
   if (it == m_url2IdMap.end())
   {
     ++m_urlIndex;
-    m_url2IdMap.insert(std::make_pair(baseUrl.str(),m_urlIndex));
-    m_urls.insert(std::make_pair(m_urlIndex,URL(name,url)));
+    m_url2IdMap.insert(std::make_pair(baseUrl(),m_urlIndex));
+    m_urls.insert(std::make_pair(m_urlIndex,URL(name,url())));
   }
   else
   {
-    m_urls.insert(std::make_pair(it->second,URL(name,url)));
+    m_urls.insert(std::make_pair(it->second,URL(name,url())));
   }
 }
 
@@ -398,7 +399,7 @@ struct SearchDocEntry
   QCString name;
   QCString args;
   QCString extId;
-  QCString url;
+  URLString url;
   GrowBuf  importantText;
   GrowBuf  normalText;
 };
@@ -528,7 +529,7 @@ void SearchIndexExternal::write(const char *fileName)
       {
         t << "    <field name=\"tag\">"      << convertToXML(doc.extId)  << "</field>\n";
       }
-      t << "    <field name=\"url\">"      << convertToXML(doc.url)  << "</field>\n";
+      t << "    <field name=\"url\">"      << convertToXML(doc.url().c_str())  << "</field>\n";
       t << "    <field name=\"keywords\">" << convertToXML(doc.importantText.get())  << "</field>\n";
       t << "    <field name=\"text\">"     << convertToXML(doc.normalText.get())     << "</field>\n";
       t << "  </doc>\n";

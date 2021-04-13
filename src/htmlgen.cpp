@@ -1345,13 +1345,13 @@ void HtmlGenerator::endTextLink()
   m_t << "</a>";
 }
 
-void HtmlGenerator::startHtmlLink(const char *url)
+void HtmlGenerator::startHtmlLink(URLString url)
 {
   bool generateTreeView = Config_getBool(GENERATE_TREEVIEW);
   m_t << "<a ";
   if (generateTreeView) m_t << "target=\"top\" ";
   m_t << "href=\"";
-  if (url) m_t << url;
+  if (!url.isEmpty()) m_t << url;
   m_t << "\">";
 }
 

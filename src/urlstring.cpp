@@ -10,6 +10,11 @@ URLString::URLString()
     _query = _fragment = "";
 }
 
+URLString::URLString(const std::string& url)
+{
+  ParseURL(url);
+}
+
 URLString::URLString(const QCString& url)
 {
   std::string loc_url = url;
@@ -48,6 +53,18 @@ std::string URLString::left(int s) const
   return (*this)().substr(0, s);
 }
 
+std::string URLString::mid(uint index, uint len) const
+{
+  return (*this)().substr(index, len);
+}
+
+std::string URLString::right(int s) const
+{
+  std::string res = (*this)();
+
+  return res.substr(res.length() - s);
+}
+
 char& URLString::at(uint location) const
 {
   std::string& res = (*this)();
@@ -55,9 +72,20 @@ char& URLString::at(uint location) const
   return res.at(location);
 }
 
+size_t URLString::length() const
+{
+  return (*this)().size();
+}
+
 URLString& URLString::prepend(const QCString& str)
 {
   *this = URLString(str.str() + (*this)());
+  return *this;
+}
+
+URLString& URLString::operator+= (const QCString& str)
+{
+  *this = URLString((*this)() + str);
   return *this;
 }
 

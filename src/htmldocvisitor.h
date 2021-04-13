@@ -18,6 +18,7 @@
 
 #include "docvisitor.h"
 #include "qcstring.h"
+#include "urlstring.h"
 
 class Definition;
 class MemberDef;
@@ -138,7 +139,7 @@ class HtmlDocVisitor : public DocVisitor
     // helper functions
     //--------------------------------------
 
-    void writeObfuscatedMailAddress(const QCString &url);
+    void writeObfuscatedMailAddress(const URLString &url);
     void filter(const char *str);
     void filterQuotedCdataAttr(const char* str);
     void startLink(const QCString &ref,const QCString &file,

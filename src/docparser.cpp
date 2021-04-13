@@ -2857,7 +2857,7 @@ DocImage::DocImage(DocNode *parent,const HtmlAttribList &attribs,const QCString 
 
 bool DocImage::isSVG() const
 {
-  QCString  locName = m_url.isEmpty() ? m_name : m_url;
+  QCString  locName = m_url.isEmpty() ? m_name : m_url();
   int len = (int)locName.length();
   int fnd = locName.find('?'); // ignore part from ? until end
   if (fnd==-1) fnd=len;

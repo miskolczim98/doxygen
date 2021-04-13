@@ -232,9 +232,9 @@ DB_VIS_C
   if (m_hide) return;
   m_t << "<link xlink:href=\"";
   if (u->isEmail()) m_t << "mailto:";
-  filter(u->url());
+  filter(u->url()().c_str());
   m_t << "\">";
-  filter(u->url());
+  filter(u->url()().c_str());
   m_t << "</link>";
 }
 
@@ -1162,7 +1162,7 @@ void DocbookDocVisitor::visitPre(DocHRef *href)
 {
 DB_VIS_C
   if (m_hide) return;
-  m_t << "<link xlink:href=\"" << convertToDocBook(href->url()) << "\">";
+  m_t << "<link xlink:href=\"" << convertToDocBook(href->url()().c_str()) << "\">";
 }
 
 void DocbookDocVisitor::visitPost(DocHRef *)

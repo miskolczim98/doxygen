@@ -245,7 +245,7 @@ void ManGenerator::writeCodeLink(const char *,const char *,
   docify(name);
 }
 
-void ManGenerator::startHtmlLink(const char *)
+void ManGenerator::startHtmlLink(URLString)
 {
 }
 

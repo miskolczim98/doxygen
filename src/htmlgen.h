@@ -156,7 +156,7 @@ class HtmlGenerator : public OutputGenerator
 
     void startTextLink(const char *file,const char *anchor);
     void endTextLink();
-    void startHtmlLink(const char *url);
+    void startHtmlLink(URLString url);
     void endHtmlLink();
     void startTypewriter() { m_t << "<code>"; }
     void endTypewriter()   { m_t << "</code>"; }

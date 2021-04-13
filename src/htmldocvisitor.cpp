@@ -333,7 +333,7 @@ void HtmlDocVisitor::visit(DocEmoji *s)
   }
 }
 
-void HtmlDocVisitor::writeObfuscatedMailAddress(const QCString &url)
+void HtmlDocVisitor::writeObfuscatedMailAddress(const URLString &url)
 {
   m_t << "<a href=\"#\" onclick=\"location.href='mai'+'lto:'";
   uint i;
@@ -352,12 +352,12 @@ void HtmlDocVisitor::visit(DocURL *u)
   if (m_hide) return;
   if (u->isEmail()) // mail address
   {
-    QCString url = u->url();
+    URLString url = u->url();
     writeObfuscatedMailAddress(url);
     uint size=5,i;
     for (i=0;i<url.length();)
     {
-      filter(url.mid(i,size));
+      filter(url.mid(i,size).c_str());
       if (i<url.length()-size) m_t << "<span style=\"display: none;\">.nosp@m.</span>";
       i+=size;
       if (size==5) size=4; else size=5;
@@ -368,7 +368,7 @@ void HtmlDocVisitor::visit(DocURL *u)
   {
     m_t << "<a href=\"";
     m_t << u->url() << "\">";
-    filter(u->url());
+    filter(u->url()().c_str());
     m_t << "</a>";
   }
 }
@@ -1658,7 +1658,7 @@ void HtmlDocVisitor::visitPre(DocImage *img)
   {
     bool inlineImage = img->isInlineImage();
     bool typeSVG = img->isSVG();
-    QCString url = img->url();
+    URLString url = img->url();
 
     if (!inlineImage)
     {

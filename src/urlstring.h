@@ -14,11 +14,12 @@ public:
   friend TextStream& operator<<(TextStream& t, const URLString& u);
   friend std::ostream& operator<< (std::ostream& stream, const URLString& url);
 
-  std::string operator()() const;
   std::string left(int s) const;
   std::string mid(uint index, uint len = 0xffffffff) const;
   std::string right(int s) const;
   std::string lower() const;
+
+  std::string operator()() const;
 
   char& at(uint location) const;
 

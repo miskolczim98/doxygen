@@ -31,6 +31,7 @@
 #include "fileinfo.h"
 #include "dir.h"
 #include "utf8.h"
+#include "urlstring.h"
 
 #define ENABLE_TRACING 0
 
@@ -1255,7 +1256,7 @@ class FilterIsRelativeURL
     {
       if (v.isValid() && v.type()==TemplateVariant::String)
       {
-        QCString s = v.toString();
+        URLString s = v.toString();
         if (!s.isEmpty() && s.at(0)=='!') return TRUE;
       }
       return FALSE;
@@ -1272,7 +1273,7 @@ class FilterIsAbsoluteURL
     {
       if (v.isValid() && v.type()==TemplateVariant::String)
       {
-        QCString s = v.toString();
+        URLString s = v.toString();
         if (!s.isEmpty() && s.at(0)=='^') return TRUE;
       }
       return FALSE;

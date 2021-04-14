@@ -26,6 +26,7 @@
 
 #include <vector>
 #include "index.h"
+#include "urlstring.h"
 
 class Definition;
 class TextStream;

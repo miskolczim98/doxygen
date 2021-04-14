@@ -120,9 +120,9 @@ LayoutNavEntry *LayoutNavEntry::find(LayoutNavEntry::Kind kind,
 
 
 
-QCString LayoutNavEntry::url() const
+URLString LayoutNavEntry::url() const
 {
-  QCString url = baseFile().stripWhiteSpace();
+  URLString url = baseFile().stripWhiteSpace();
   if ((kind()!=LayoutNavEntry::User && kind()!=LayoutNavEntry::UserGroup) ||
       (kind()==LayoutNavEntry::UserGroup && url.left(9)=="usergroup"))
   {
@@ -133,7 +133,7 @@ QCString LayoutNavEntry::url() const
     const Definition *d = 0;
     QCString anchor;
     bool found=FALSE;
-    if (resolveLink(0,url.mid(5).stripWhiteSpace(),TRUE,&d,anchor))
+    if (resolveLink(0,((QCString)url.mid(5)).stripWhiteSpace(),TRUE,&d,anchor))
     {
       if (d && d->isLinkable())
       {

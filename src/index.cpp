@@ -4299,7 +4299,7 @@ static void writeUserGroupStubPage(OutputList &ol,LayoutNavEntry *lne)
       {
         if (entry->visible())
         {
-          ol.writeString("<li><a href=\""+entry->url()+"\"><span>"+
+          ol.writeString("<li><a href=\""+entry->url()()+"\"><span>"+
               fixSpaces(entry->title())+"</span></a></li>\n");
         }
       }
@@ -5130,9 +5130,9 @@ static bool renderQuickLinksAsJs(std::ostream &t,LayoutNavEntry *root,bool first
       {
         if (!firstChild) t << ",\n";
         firstChild=FALSE;
-        QCString url = entry->url();
+        URLString url = entry->url();
         t << "{text:\"" << convertToJSString(entry->title()) << "\",url:\""
-          << convertToJSString(url) << "\"";
+          << convertToJSString(url().c_str()) << "\"";
         bool hasChildren=FALSE;
         if (entry->kind()==LayoutNavEntry::NamespaceMembers)
         {

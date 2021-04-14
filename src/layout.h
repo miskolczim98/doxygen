@@ -22,6 +22,7 @@
 #include <memory>
 #include <vector>
 #include "types.h"
+#include "urlstring.h"
 
 class LayoutParser;
 struct LayoutNavEntry;
@@ -171,7 +172,7 @@ struct LayoutNavEntry
     QCString baseFile() const        { return m_baseFile; }
     QCString title() const           { return m_title; }
     QCString intro() const           { return m_intro; }
-    QCString url() const;
+    URLString url() const;
     bool visible()                   { return m_visible; }
     void clear()                     { m_children.clear(); }
     void addChild(LayoutNavEntry *e) { m_children.push_back(std::unique_ptr<LayoutNavEntry>(e)); }

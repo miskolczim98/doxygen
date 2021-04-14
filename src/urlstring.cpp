@@ -129,19 +129,9 @@ void URLString::ParseProtocol(const std::string& loc_url)
 {
   size_t comma_location = loc_url.find(":");
 
-  if (comma_location == std::string::npos)
-    throw std::invalid_argument("Invalid URL: No protocol added.");
-
-  std::string protocol = loc_url.substr(0, comma_location);
-
-  if (protocol == "http" || protocol == "https" ||
-    protocol == "ftp" || protocol == "ftps" ||
-    protocol == "sftp" || protocol == "file" ||
-    protocol == "news" || protocol == "irc" ||
-    protocol == "ircs")
-    _protocol = protocol;
-  else
-    _protocol = "";
+  _protocol = comma_location != std::string::npos
+    ? loc_url.substr(0, comma_location)
+    : "";
 }
 
 void URLString::ParseAuthority(const std::string& loc_url)

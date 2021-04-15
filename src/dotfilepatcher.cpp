@@ -24,6 +24,7 @@
 #include "util.h"
 #include "dot.h"
 #include "dir.h"
+#include "urlstring.h"
 
 static const char svgZoomHeader[] =
 "<svg id=\"main\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" onload=\"init(evt)\">\n"
@@ -141,7 +142,7 @@ static QCString replaceRef(const QCString &buf,const QCString relPath,
   }
   if (indexS>=0 && (indexE=buf.find('"',indexS+len))!=-1)
   {
-    QCString link = buf.mid(indexS+len,indexE-indexS-len);
+    URLString link = buf.mid(indexS+len,indexE-indexS-len);
     QCString result;
     if (urlOnly) // for user defined dot graphs
     {
@@ -160,7 +161,7 @@ static QCString replaceRef(const QCString &buf,const QCString relPath,
       }
       else
       {
-        result = href+"=\"" + link + "\"";
+        result = href+"=\"" + link() + "\"";
       }
     }
     else // ref$url (external ref via tag file), or $url (local ref)
@@ -169,7 +170,7 @@ static QCString replaceRef(const QCString &buf,const QCString relPath,
       if (marker!=-1)
       {
         QCString ref = link.left(marker);
-        QCString url = link.mid(marker+1);
+        URLString url = link.mid(marker+1);
         if (!ref.isEmpty())
         {
           result = externalLinkTarget(true);
@@ -177,11 +178,11 @@ static QCString replaceRef(const QCString &buf,const QCString relPath,
         }
         result+= href+"=\"";
         result+=externalRef(relPath,ref,TRUE);
-        result+= url + "\"";
+        result+= url() + "\"";
       }
       else // should not happen, but handle properly anyway
       {
-        result = href+"=\"" + link + "\"";
+        result = href+"=\"" + link() + "\"";
       }
     }
     if (!target.isEmpty() && !targetAlreadySet)

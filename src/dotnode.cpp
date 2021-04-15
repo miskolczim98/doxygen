@@ -286,7 +286,7 @@ static QCString stripProtectionPrefix(const QCString &s)
   }
 }
 
-DotNode::DotNode(int n,const char *lab,const char *tip, const char *url,
+DotNode::DotNode(int n,const char *lab,const char *tip,URLString url,
   bool isRoot,const ClassDef *cd)
   : m_number(n)
   , m_label(lab)
@@ -608,7 +608,7 @@ void DotNode::writeXML(TextStream &t,bool isClassGraph) const
   t << "        <label>" << convertToXML(m_label) << "</label>\n";
   if (!m_url.isEmpty())
   {
-    QCString url(m_url);
+    URLString url(m_url);
     const char *refPtr = url.data();
     char *urlPtr = strchr(url.rawData(),'$');
     if (urlPtr)
@@ -672,7 +672,7 @@ void DotNode::writeDocbook(TextStream &t,bool isClassGraph) const
   t << "        <label>" << convertToXML(m_label) << "</label>\n";
   if (!m_url.isEmpty())
   {
-    QCString url(m_url);
+    URLString url(m_url);
     const char *refPtr = url.data();
     char *urlPtr = strchr(url.rawData(),'$');
     if (urlPtr)
@@ -741,7 +741,7 @@ void DotNode::writeDEF(TextStream &t) const
 
   if (!m_url.isEmpty())
   {
-    QCString url(m_url);
+    URLString url(m_url);
     const char *refPtr = url.data();
     char *urlPtr = strchr(url.rawData(),'$');
     if (urlPtr)

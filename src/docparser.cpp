@@ -51,6 +51,7 @@
 #include "emoji.h"
 #include "fileinfo.h"
 #include "dir.h"
+#include "urlstring.h"
 
 #define TK_COMMAND_CHAR(token) ((token)==TK_COMMAND_AT ? '@' : '\\')
 
@@ -107,7 +108,7 @@ static StringSet              g_paramsFound;
 static const MemberDef *      g_memberDef;
 static bool                   g_isExample;
 static QCString               g_exampleName;
-static QCString               g_searchUrl;
+static URLString               g_searchUrl;
 
 static QCString               g_includeFileName;
 static QCString               g_includeFileText;
@@ -142,7 +143,7 @@ struct DocParserContext
   StringSet    paramsFound;
   bool         isExample;
   QCString     exampleName;
-  QCString     searchUrl;
+  URLString     searchUrl;
 
   QCString  includeFileText;
   uint     includeFileOffset;
@@ -2847,7 +2848,7 @@ void DocVhdlFlow::parse()
 //---------------------------------------------------------------------------
 
 DocImage::DocImage(DocNode *parent,const HtmlAttribList &attribs,const QCString &name,
-                   Type t,const QCString &url, bool inlineImage) :
+                   Type t,const URLString &url, bool inlineImage) :
       m_attribs(attribs), m_name(name),
       m_type(t), m_relPath(g_relPath),
       m_url(url), m_inlineImage(inlineImage)

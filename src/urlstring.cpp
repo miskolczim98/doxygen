@@ -49,6 +49,21 @@ URLString URLString::stripWhiteSpace() const
   return URLString(result);
 }
 
+const char* URLString::data() const
+{
+  return (*this)().data();
+}
+
+char* URLString::rawData() const
+{
+  std::string result = (*this)();
+  
+  char* y = new char[result.length() + 1];
+
+  std::strcpy(y, result.c_str());
+  return y;
+}
+
 std::string URLString::left(int s) const
 {
   return (*this)().substr(0, s);
@@ -91,6 +106,11 @@ int URLString::find(const char* str) const
 int URLString::find(const char c) const
 {
   return (*this)().find(c);
+}
+
+int URLString::findRev(char c, int index, bool cs) const
+{
+  return ((QCString)(*this)()).findRev(c, index, cs);
 }
 
 URLString& URLString::prepend(const QCString& str)

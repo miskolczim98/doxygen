@@ -14,6 +14,9 @@ public:
   friend TextStream& operator<<(TextStream& t, const URLString& u);
   friend std::ostream& operator<< (std::ostream& stream, const URLString& url);
 
+  const char* data() const;
+  char* rawData() const;
+
   std::string left(int s) const;
   std::string mid(uint index, uint len = 0xffffffff) const;
   std::string right(int s) const;
@@ -27,6 +30,7 @@ public:
 
   int find(const char* str) const;
   int find(const char str) const;
+  int findRev(char c, int index = -1, bool cs = TRUE) const;
 
   URLString stripWhiteSpace() const;
   URLString& prepend(const QCString& str);

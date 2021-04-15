@@ -20,6 +20,7 @@
 #include <map>
 #include <deque>
 #include <iostream>
+#include "urlstring.h"
 
 #include "dotgraph.h"
 
@@ -33,19 +34,19 @@ class EdgeInfo
   public:
     enum Colors { Blue=0, Green=1, Red=2, Purple=3, Grey=4, Orange=5, Orange2=6 };
     enum Styles { Solid=0, Dashed=1 };
-    EdgeInfo(int color,int style,const QCString &lab,const QCString &url,int labColor)
+    EdgeInfo(int color,int style,const QCString &lab,const URLString &url,int labColor)
         : m_color(color), m_style(style), m_label(lab), m_url(url), m_labColor(labColor) {}
     ~EdgeInfo() {}
     int color() const      { return m_color; }
     int style() const      { return m_style; }
     QCString label() const { return m_label; }
-    QCString url() const   { return m_url; }
+    URLString url() const   { return m_url; }
     int labelColor() const { return m_labColor; }
   private:
     int m_color;
     int m_style;
     QCString m_label;
-    QCString m_url;
+    URLString m_url;
     int m_labColor;
 };
 
@@ -58,7 +59,7 @@ class DotNode
   public:
     static void deleteNodes(DotNode* node);
     static QCString convertLabel(const QCString& l);
-    DotNode(int n,const char *lab,const char *tip,const char *url,
+    DotNode(int n,const char *lab,const char *tip,URLString url,
         bool rootNode=FALSE,const ClassDef *cd=0);
     ~DotNode();
 
@@ -115,7 +116,7 @@ class DotNode
     int              m_number;
     QCString         m_label;                //!< label text
     QCString         m_tooltip;              //!< node's tooltip
-    QCString         m_url;                  //!< url of the node (format: remote$local)
+    URLString         m_url;                  //!< url of the node (format: remote$local)
     DotNodeRefVector m_parents;              //!< list of parent nodes (incoming arrows)
     DotNodeRefVector m_children;             //!< list of child nodes (outgoing arrows)
     EdgeInfoVector   m_edgeInfo;             //!< edge info for each child

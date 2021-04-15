@@ -24,7 +24,7 @@
 
 DotGroupCollaboration::DotGroupCollaboration(const GroupDef* gd)
 {
-  QCString tmp_url = gd->getReference()+"$"+gd->getOutputFileBase();
+  URLString tmp_url = gd->getReference()+"$"+gd->getOutputFileBase();
   QCString tooltip = gd->briefDescriptionAsTooltip();
   m_rootNode = new DotNode(getNextNodeNumber(), gd->groupTitle(), tooltip, tmp_url, TRUE );
   m_rootNode->markAsVisible();
@@ -46,7 +46,7 @@ DotGroupCollaboration::~DotGroupCollaboration()
 
 void DotGroupCollaboration::buildGraph(const GroupDef* gd)
 {
-  QCString tmp_url;
+  URLString tmp_url;
   //===========================
   // hierarchy.
 
@@ -68,7 +68,7 @@ void DotGroupCollaboration::buildGraph(const GroupDef* gd)
       nnode = it->second;
     }
     tmp_url = "";
-    addEdge( nnode, m_rootNode, DotGroupCollaboration::thierarchy, tmp_url, tmp_url );
+    addEdge( nnode, m_rootNode, DotGroupCollaboration::thierarchy, tmp_url(), tmp_url );
   }
 
   // Add subgroups
@@ -89,7 +89,7 @@ void DotGroupCollaboration::buildGraph(const GroupDef* gd)
       nnode = it->second;
     }
     tmp_url = "";
-    addEdge( m_rootNode, nnode, DotGroupCollaboration::thierarchy, tmp_url, tmp_url );
+    addEdge( m_rootNode, nnode, DotGroupCollaboration::thierarchy, tmp_url(), tmp_url );
   }
 
   //=======================
@@ -146,7 +146,7 @@ void DotGroupCollaboration::addMemberList( MemberList* ml )
   if ( ml==0 || ml->empty() ) return;
   for (const auto &def : *ml)
   {
-    QCString tmp_url = def->getReference()+"$"+def->getOutputFileBase()+Doxygen::htmlFileExtension
+    URLString tmp_url = def->getReference()+"$"+def->getOutputFileBase()+Doxygen::htmlFileExtension
       +"#"+def->anchor();
     addCollaborationMember( def, tmp_url, DotGroupCollaboration::tmember );
   }
@@ -154,7 +154,7 @@ void DotGroupCollaboration::addMemberList( MemberList* ml )
 
 DotGroupCollaboration::Edge* DotGroupCollaboration::addEdge(
   DotNode* _pNStart, DotNode* _pNEnd, EdgeType _eType,
-  const QCString& _label, const QCString& _url )
+  const QCString& _label, const URLString& _url )
 {
   // search a existing link.
   auto it = std::find_if(m_edges.begin(),m_edges.end(),
@@ -177,7 +177,7 @@ DotGroupCollaboration::Edge* DotGroupCollaboration::addEdge(
 }
 
 void DotGroupCollaboration::addCollaborationMember(
-  const Definition* def, QCString& url, EdgeType eType )
+  const Definition* def, URLString& url, EdgeType eType )
 {
   // Create group nodes
   QCString tmp_str;

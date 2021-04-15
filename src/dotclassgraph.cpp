@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "util.h"
+#include "urlstring.h"
 
 void DotClassGraph::addClass(const ClassDef *cd,DotNode *n,int prot,
   const char *label,const char *usedName,const char *templSpec,bool base,int distance)
@@ -75,7 +76,7 @@ void DotClassGraph::addClass(const ClassDef *cd,DotNode *n,int prot,
   {
     QCString displayName=className;
     if (Config_getBool(HIDE_SCOPE_NAMES)) displayName=stripScope(displayName);
-    QCString tmp_url;
+    URLString tmp_url;
     if (cd->isLinkable() && !cd->isHidden())
     {
       tmp_url=cd->getReference()+"$"+cd->getOutputFileBase();
@@ -315,7 +316,7 @@ DotClassGraph::DotClassGraph(const ClassDef *cd,GraphType t)
 {
   //printf("--------------- DotClassGraph::DotClassGraph '%s'\n",cd->displayName().data());
   m_graphType = t;
-  QCString tmp_url="";
+  URLString tmp_url="";
   if (cd->isLinkable() && !cd->isHidden())
   {
     tmp_url=cd->getReference()+"$"+cd->getOutputFileBase();

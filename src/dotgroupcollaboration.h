@@ -19,6 +19,7 @@
 #include "dotnode.h"
 #include "dotgraph.h"
 #include "groupdef.h"
+#include "urlstring.h"
 
 class TextStream;
 
@@ -52,9 +53,9 @@ class DotGroupCollaboration : public DotGraph
 
     struct Link
     {
-      Link(const QCString lab,const QCString &u) : label(lab), url(u) {}
+      Link(const QCString lab,const URLString &u) : label(lab), url(u) {}
       QCString label;
-      QCString url;
+      URLString url;
     };
 
     struct Edge
@@ -71,11 +72,11 @@ class DotGroupCollaboration : public DotGraph
     };
 
     void buildGraph(const GroupDef* gd);
-    void addCollaborationMember(const Definition* def, QCString& url, EdgeType eType );
+    void addCollaborationMember(const Definition* def, URLString& url, EdgeType eType );
     void addMemberList( class MemberList* ml );
     void writeGraphHeader(TextStream &t,const QCString &title) const;
     Edge* addEdge( DotNode* _pNStart, DotNode* _pNEnd, EdgeType _eType,
-        const QCString& _label, const QCString& _url );
+        const QCString& _label, const URLString& _url );
 
     DotNode        *m_rootNode;
     DotNodeMap      m_usedNodes;

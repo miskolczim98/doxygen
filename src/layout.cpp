@@ -539,16 +539,16 @@ class LayoutParser
       {
         intro = mapping[i].intro;
       }
-      QCString url = XMLHandlers::value(attrib,"url");
+      URLString url = XMLHandlers::value(attrib,"url");
       if (mapping[i].kind==LayoutNavEntry::User && !url.isEmpty())
       {
-        baseFile=url;
+        baseFile=url();
       }
       else if (kind==LayoutNavEntry::UserGroup)
       {
         if (!url.isEmpty())
         {
-          baseFile=url;
+          baseFile=url();
         }
         else
         {

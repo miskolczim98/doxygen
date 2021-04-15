@@ -18,6 +18,7 @@
 #include "util.h"
 #include "config.h"
 #include "textstream.h"
+#include "urlstring.h"
 
 void DotInclDepGraph::buildGraph(DotNode *n,const FileDef *fd,int distance)
 {
@@ -36,7 +37,7 @@ void DotInclDepGraph::buildGraph(DotNode *n,const FileDef *fd,int distance)
     }
     if (doc || src || !Config_getBool(HIDE_UNDOC_RELATIONS))
     {
-      QCString url="";
+      URLString url="";
       if (bfd) url=bfd->getOutputFileBase().copy();
       if (!doc && src)
       {
@@ -52,11 +53,11 @@ void DotInclDepGraph::buildGraph(DotNode *n,const FileDef *fd,int distance)
       }
       else
       {
-        QCString tmp_url;
+        URLString tmp_url;
         QCString tooltip;
         if (bfd)
         {
-          tmp_url=doc || src ? bfd->getReference()+"$"+url : QCString();
+          tmp_url=doc || src ? bfd->getReference()+"$"+url() : QCString();
           tooltip = bfd->briefDescriptionAsTooltip();
         }
         DotNode *bn = new DotNode(getNextNodeNumber(),// n
@@ -126,7 +127,7 @@ DotInclDepGraph::DotInclDepGraph(const FileDef *fd,bool inverse)
   ASSERT(fd!=0);
   m_inclDepFileName   = fd->includeDependencyGraphFileName();
   m_inclByDepFileName = fd->includedByDependencyGraphFileName();
-  QCString tmp_url=fd->getReference()+"$"+fd->getOutputFileBase();
+  URLString tmp_url=fd->getReference()+"$"+fd->getOutputFileBase();
   QCString tooltip = fd->briefDescriptionAsTooltip();
   m_startNode = new DotNode(getNextNodeNumber(),
                             fd->docName(),

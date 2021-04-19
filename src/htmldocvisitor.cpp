@@ -368,7 +368,7 @@ void HtmlDocVisitor::visit(DocURL *u)
   {
     m_t << "<a href=\"";
     m_t << u->url() << "\">";
-    filter(u->url()().c_str());
+    filter(u->url()());
     m_t << "</a>";
   }
 }
@@ -1627,7 +1627,7 @@ void HtmlDocVisitor::visitPre(DocHRef *href)
   else
   {
     URLString url = correctURL(href->url(),href->relPath());
-    m_t << "<a href=\"" << convertToHtml(url().c_str())  << "\""
+    m_t << "<a href=\"" << convertToHtml(url())  << "\""
         << htmlAttribsToString(href->attribs()) << ">";
   }
 }

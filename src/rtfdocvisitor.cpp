@@ -191,7 +191,7 @@ void RTFDocVisitor::visit(DocURL *u)
     m_t <<   "}"
              "{\\fldrslt "
                "{\\cs37\\ul\\cf2 ";
-    filter(u->url()().c_str());
+    filter(u->url()());
     m_t <<     "}"
              "}"
            "}\n";
@@ -199,7 +199,7 @@ void RTFDocVisitor::visit(DocURL *u)
   else
   {
     m_t << "{\\f2 ";
-    filter(u->url()().c_str());
+    filter(u->url()());
     m_t << "}";
   }
   m_lastIsPara=FALSE;

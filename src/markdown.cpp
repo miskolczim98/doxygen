@@ -1041,7 +1041,7 @@ int Markdown::processLink(const char *data,int,int size)
     bool ambig;
     FileDef *fd=0;
     if (link.find("@ref ")!=-1 || link.find("\\ref ")!=-1 ||
-        (fd=findFileDef(Doxygen::imageNameLinkedMap,link().c_str(),ambig)))
+        (fd=findFileDef(Doxygen::imageNameLinkedMap,link(),ambig)))
         // assume doxygen symbol link or local image link
     {
       writeMarkdownImage("html",    explicitTitle, title, content, link, fd);
@@ -1075,9 +1075,9 @@ int Markdown::processLink(const char *data,int,int size)
       if (lp==-1) // link to markdown page
       {
         m_out.addStr("@ref ");
-        if (!(Portable::isAbsolutePath(link().c_str()) || isURL(link)))
+        if (!(Portable::isAbsolutePath(link()) || isURL(link)))
         {
-          FileInfo forg(link());
+          FileInfo forg(link().str());
           if (forg.exists() && forg.isReadable())
           {
             link = forg.absFilePath();

@@ -2,6 +2,7 @@
 
 #include "qcstring.h"
 #include "textstream.h"
+#include "qcstring.h"
 
 class URLString
 {
@@ -12,7 +13,7 @@ public:
   URLString(const char* url);
 
   friend TextStream& operator<<(TextStream& t, const URLString& u);
-  friend std::ostream& operator<< (std::ostream& stream, const URLString& url);
+  friend std::ostream& operator<<(std::ostream& stream, const URLString& url);
 
   const char* data() const;
   char* rawData() const;
@@ -22,7 +23,7 @@ public:
   std::string right(int s) const;
   std::string lower() const;
 
-  std::string operator()() const;
+  QCString operator()() const;
 
   char& at(uint location) const;
 
@@ -30,7 +31,7 @@ public:
 
   int find(const char* str) const;
   int find(const char str) const;
-  int findRev(char c, int index = -1, bool cs = TRUE) const;
+  int findRev(char c, int index = -1, bool cs = true) const;
 
   URLString stripWhiteSpace() const;
   URLString& prepend(const QCString& str);
@@ -38,6 +39,7 @@ public:
 
   bool operator==(const URLString& url) const;
   bool URLString::isEmpty() const;
+  bool startsWith(const std::string& s) const;
 
 private:
   std::string GetProtocol() const;

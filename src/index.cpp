@@ -4947,7 +4947,7 @@ static void writeIndexHierarchyEntries(OutputList &ol,const LayoutNavEntryList &
               url.prepend("^"); // prepend ^ to absolute URL
             }
             bool isRef = lne->baseFile().left(4)=="@ref" || lne->baseFile().left(4)=="\\ref";
-            Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url().c_str(),0,FALSE,isRef || isRelative);
+            Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url(),0,FALSE,isRef || isRelative);
           }
           break;
         case LayoutNavEntry::UserGroup:
@@ -4968,7 +4968,7 @@ static void writeIndexHierarchyEntries(OutputList &ol,const LayoutNavEntryList &
                   url.prepend("^"); // prepend ^ to absolute URL
                 }
                 bool isRef = lne->baseFile().left(4)=="@ref" || lne->baseFile().left(4)=="\\ref";
-                Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url().c_str(),0,FALSE,isRef || isRelative);
+                Doxygen::indexList->addContentsItem(TRUE,lne->title(),0,url(),0,FALSE,isRef || isRelative);
               }
             }
             else
@@ -5132,7 +5132,7 @@ static bool renderQuickLinksAsJs(std::ostream &t,LayoutNavEntry *root,bool first
         firstChild=FALSE;
         URLString url = entry->url();
         t << "{text:\"" << convertToJSString(entry->title()) << "\",url:\""
-          << convertToJSString(url().c_str()) << "\"";
+          << convertToJSString(url()) << "\"";
         bool hasChildren=FALSE;
         if (entry->kind()==LayoutNavEntry::NamespaceMembers)
         {

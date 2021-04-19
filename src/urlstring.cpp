@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <string>
 #include <algorithm>
-#include <cctype>
 
 URLString::URLString()
 {
@@ -34,7 +33,7 @@ TextStream& operator<<(TextStream& t, const URLString& u)
   return t;
 }
 
-std::ostream& operator<< (std::ostream& stream, const URLString& url)
+std::ostream& operator<<(std::ostream& stream, const URLString& url)
 {
   stream << url();
   return stream;
@@ -42,16 +41,14 @@ std::ostream& operator<< (std::ostream& stream, const URLString& url)
 
 URLString URLString::stripWhiteSpace() const
 {
-  std::string result = (*this)();
-
-  for (size_t i = 0, j = 0; result[j] = result[i]; j += !isspace(result[i++]));
-
-  return URLString(result);
+  return URLString((*this)().stripWhiteSpace());
 }
 
 const char* URLString::data() const
 {
-  return (*this)().data();
+  QCString url = (*this)();
+
+  return url.data();
 }
 
 char* URLString::rawData() const
@@ -66,19 +63,17 @@ char* URLString::rawData() const
 
 std::string URLString::left(int s) const
 {
-  return (*this)().substr(0, s);
+  return (*this)().left(s);
 }
 
 std::string URLString::mid(uint index, uint len) const
 {
-  return (*this)().substr(index, len);
+  return (*this)().mid(index, len);
 }
 
 std::string URLString::right(int s) const
 {
-  std::string res = (*this)();
-
-  return res.substr(res.length() - s);
+  return (*this)().right(s);
 }
 
 std::string URLString::lower() const
@@ -88,7 +83,7 @@ std::string URLString::lower() const
 
 char& URLString::at(uint location) const
 {
-  std::string& res = (*this)();
+  std::string& res = (*this)().str();
 
   return res.at(location);
 }
@@ -110,7 +105,7 @@ int URLString::find(const char c) const
 
 int URLString::findRev(char c, int index, bool cs) const
 {
-  return ((QCString)(*this)()).findRev(c, index, cs);
+  return (*this)().findRev(c, index, cs);
 }
 
 URLString& URLString::prepend(const QCString& str)
@@ -132,8 +127,13 @@ bool URLString::operator==(const URLString& url) const
 
 bool URLString::isEmpty() const
 {
-  return _protocol == "" && _userinfo == "" && _host == "" &&
-    _port == "" && _path == "" && _query == "" && _fragment == "";
+  return _protocol.empty() && _userinfo.empty() && _host.empty() &&
+    _port.empty() && _path.empty() && _query.empty() && _fragment.empty();
+}
+
+bool URLString::startsWith(const std::string& s) const
+{
+  return (*this)().startsWith(s.c_str());
 }
 
 void URLString::ParseURL(const std::string& url)
@@ -191,7 +191,7 @@ void URLString::ParseUserInfo(const std::string& loc_authority)
   {
     _userinfo = loc_authority.substr(0, userinfo_at_location);
 
-    if (_userinfo == "")
+    if (_userinfo.empty())
       throw std::invalid_argument("Invalid URL: No userinfo added.");
   }
   else
@@ -200,7 +200,7 @@ void URLString::ParseUserInfo(const std::string& loc_authority)
 
 void URLString::ParseHost(const std::string& loc_authority)
 {
-  size_t host_start = _userinfo != "" ? _userinfo.size() + 1 : 0;
+  size_t host_start = !_userinfo.empty() ? _userinfo.size() + 1 : 0;
 
   size_t host_end = loc_authority.substr(host_start, loc_authority.size() - host_start).find(":");
   host_end = host_end == std::string::npos ? host_end = loc_authority.size() : host_end + host_start;
@@ -213,7 +213,7 @@ void URLString::ParseHost(const std::string& loc_authority)
 
 void URLString::ParsePort(const std::string& loc_authority)
 {
-  size_t port_start = _userinfo != "" ? _userinfo.size() + _host.size() + 1 : _host.size();
+  size_t port_start = !_userinfo.empty() ? _userinfo.size() + _host.size() + 1 : _host.size();
 
   if (port_start < loc_authority.size() && loc_authority.substr(port_start, 1) == ":")
   {
@@ -291,16 +291,16 @@ void URLString::ParseFragment(const std::string& loc_url)
 
 std::string URLString::GetProtocol() const
 {
-  return _protocol == "" ? _protocol : _protocol + ":";
+  return _protocol.empty() ? "" : _protocol + ":";
 }
 
 std::string URLString::GetAuthority() const
 {
-  if (_host == "")
+  if (_host.empty())
     return "";
 
-  std::string userinfo = _userinfo != "" ? _userinfo + "@" : "";
-  std::string port = _port != "" ? ":" + _port : "";
+  std::string userinfo = !_userinfo.empty() ? _userinfo + "@" : "";
+  std::string port = !_port.empty() ? ":" + _port : "";
 
   return "//" + userinfo + _host + port;
 }
@@ -312,15 +312,15 @@ std::string URLString::GetPath() const
 
 std::string URLString::GetQuery() const
 {
-  return _query == "" ? "" : "?" + _query;
+  return _query.empty() ? "" : "?" + _query;
 }
 
 std::string URLString::GetFragment() const
 {
-  return _fragment == "" ? "" : "#" + _fragment;
+  return _fragment.empty() ? "" : "#" + _fragment;
 }
 
-std::string URLString::operator()() const
+QCString URLString::operator()() const
 {
   return GetProtocol() + GetAuthority() + GetPath() + GetQuery() + GetFragment();
 }

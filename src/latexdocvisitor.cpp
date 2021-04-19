@@ -264,10 +264,10 @@ void LatexDocVisitor::visit(DocURL *u)
   {
     m_t << "\\href{";
     if (u->isEmail()) m_t << "mailto:";
-    m_t << latexFilterURL(u->url()().c_str()) << "}";
+    m_t << latexFilterURL(u->url()()) << "}";
   }
   m_t << "{\\texttt{ ";
-  filter(u->url()().c_str());
+  filter(u->url()());
   m_t << "}}";
 }
 
@@ -1341,7 +1341,7 @@ void LatexDocVisitor::visitPre(DocHRef *href)
   if (Config_getBool(PDF_HYPERLINKS))
   {
     m_t << "\\href{";
-    m_t << latexFilterURL(href->url()().c_str());
+    m_t << latexFilterURL(href->url()());
     m_t << "}";
   }
   m_t << "{\\texttt{ ";

@@ -162,9 +162,9 @@ void XmlDocVisitor::visit(DocURL *u)
   if (m_hide) return;
   m_t << "<ulink url=\"";
   if (u->isEmail()) m_t << "mailto:";
-  filter(u->url()().c_str());
+  filter(u->url()());
   m_t << "\">";
-  filter(u->url()().c_str());
+  filter(u->url()());
   m_t << "</ulink>";
 }
 
@@ -890,7 +890,7 @@ void XmlDocVisitor::visitPost(DocInternal *)
 void XmlDocVisitor::visitPre(DocHRef *href)
 {
   if (m_hide) return;
-  m_t << "<ulink url=\"" << convertToXML(href->url()().c_str(), TRUE) << "\">";
+  m_t << "<ulink url=\"" << convertToXML(href->url()(), TRUE) << "\">";
 }
 
 void XmlDocVisitor::visitPost(DocHRef *)

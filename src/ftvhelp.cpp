@@ -262,7 +262,7 @@ static URLString node2URL(const FTVNode *n,bool overruleFile=FALSE,bool srcLink=
         url = fd->getOutputFileBase();
       }
     }
-    url = addHtmlExtensionIfMissing(url().c_str());
+    url = addHtmlExtensionIfMissing(url());
     if (!n->anchor.isEmpty()) url+="#"+n->anchor;
   }
   return url;
@@ -701,7 +701,7 @@ static void generateJSNavTree(const std::vector<FTVNode*> &nodeList)
 
     // write the navigation index (and sub-indices)
     std::sort(navIndex.begin(),navIndex.end(),[](const auto &n1,const auto &n2)
-        { return !n1.url.isEmpty() && (n2.url.isEmpty() || qstrcmp(n1.url().c_str(),n2.url().c_str())<0); });
+        { return !n1.url.isEmpty() && (n2.url.isEmpty() || qstrcmp(n1.url(),n2.url())<0); });
 
     int subIndex=0;
     int elemCount=0;

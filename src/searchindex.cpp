@@ -164,7 +164,7 @@ void SearchIndex::setCurrentDoc(const Definition *ctx,const char *anchor,bool is
     }
   }
 
-  auto it = m_url2IdMap.find(baseUrl());
+  auto it = m_url2IdMap.find(baseUrl().str());
   if (it == m_url2IdMap.end())
   {
     ++m_urlIndex;
@@ -529,7 +529,7 @@ void SearchIndexExternal::write(const char *fileName)
       {
         t << "    <field name=\"tag\">"      << convertToXML(doc.extId)  << "</field>\n";
       }
-      t << "    <field name=\"url\">"      << convertToXML(doc.url().c_str())  << "</field>\n";
+      t << "    <field name=\"url\">"      << convertToXML(doc.url())  << "</field>\n";
       t << "    <field name=\"keywords\">" << convertToXML(doc.importantText.get())  << "</field>\n";
       t << "    <field name=\"text\">"     << convertToXML(doc.normalText.get())     << "</field>\n";
       t << "  </doc>\n";

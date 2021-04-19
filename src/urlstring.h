@@ -16,7 +16,7 @@ public:
   friend std::ostream& operator<<(std::ostream& stream, const URLString& url);
 
   const char* data() const;
-  char* rawData() const;
+  char* rawData();
 
   std::string left(int s) const;
   std::string mid(uint index, uint len = 0xffffffff) const;
@@ -25,7 +25,8 @@ public:
 
   QCString operator()() const;
 
-  char& at(uint location) const;
+  char& at(uint location);
+  const char& at(uint location) const;
 
   size_t length() const;
 
@@ -38,7 +39,7 @@ public:
   URLString& operator+= (const QCString& str);
 
   bool operator==(const URLString& url) const;
-  bool URLString::isEmpty() const;
+  bool isEmpty() const;
   bool startsWith(const std::string& s) const;
 
 private:

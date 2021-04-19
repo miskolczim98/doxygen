@@ -17,7 +17,7 @@ URLString::URLString(const std::string& url)
 
 URLString::URLString(const QCString& url)
 {
-  std::string loc_url = url;
+  std::string loc_url = url.str();
 
   ParseURL(loc_url);
 }
@@ -51,10 +51,10 @@ const char* URLString::data() const
   return url.data();
 }
 
-char* URLString::rawData() const
+char* URLString::rawData()
 {
   std::string result = (*this)();
-  
+
   char* y = new char[result.length() + 1];
 
   std::strcpy(y, result.c_str());
@@ -81,7 +81,17 @@ std::string URLString::lower() const
   return ((QCString)(*this)()).lower().str();
 }
 
-char& URLString::at(uint location) const
+char& URLString::at(uint location)
+{
+  std::string res = (*this)().str();
+
+  char* y;
+  std::strcpy(y, res.c_str());
+
+  return *y;
+}
+
+const char& URLString::at(uint location) const
 {
   std::string& res = (*this)().str();
 

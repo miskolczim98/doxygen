@@ -309,6 +309,7 @@ add_library(doxymain STATIC
     vhdljjparser.cpp
     xmldocvisitor.cpp
     xmlgen.cpp
+    urlstring.cpp
 )
 add_sanitizers(doxymain)
 

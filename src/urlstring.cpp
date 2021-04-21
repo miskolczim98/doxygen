@@ -4,6 +4,8 @@
 #include <string>
 #include <algorithm>
 
+#include <iostream>
+
 URLString::URLString()
 {
   _protocol = _userinfo = _host = _port = _path =
@@ -53,7 +55,7 @@ const char* URLString::data() const
 
 char* URLString::rawData()
 {
-  std::string result = (*this)();
+  std::string result = (*this)().str();
 
   char* y = new char[result.length() + 1];
 
@@ -78,24 +80,27 @@ std::string URLString::right(int s) const
 
 std::string URLString::lower() const
 {
-  return ((QCString)(*this)()).lower().str();
+  return ((*this)()).lower().str();
 }
 
 char& URLString::at(uint location)
 {
-  std::string res = (*this)().str();
+  std::string result = (*this)().str();
 
-  char* y;
-  std::strcpy(y, res.c_str());
+  char* y = new char[result.length() + 1];
+  std::strcpy(y, result.c_str());
 
-  return *y;
+  return *(y + location);
 }
 
 const char& URLString::at(uint location) const
 {
-  std::string& res = (*this)().str();
+  std::string result = (*this)().str();
 
-  return res.at(location);
+  char* y = new char[result.length() + 1];
+  std::strcpy(y, result.c_str());
+
+  return *(y + location);
 }
 
 size_t URLString::length() const

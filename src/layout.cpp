@@ -133,7 +133,7 @@ URLString LayoutNavEntry::url() const
     const Definition *d = 0;
     QCString anchor;
     bool found=FALSE;
-    if (resolveLink(0,((QCString)url.mid(5)).stripWhiteSpace(),TRUE,&d,anchor))
+    if (resolveLink(0, static_cast<QCString>(url.mid(5)).stripWhiteSpace(),TRUE,&d,anchor))
     {
       if (d && d->isLinkable())
       {

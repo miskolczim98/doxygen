@@ -177,7 +177,7 @@ DotGroupCollaboration::Edge* DotGroupCollaboration::addEdge(
 }
 
 void DotGroupCollaboration::addCollaborationMember(
-  const Definition* def, URLString& url, EdgeType eType )
+  const Definition* def, const URLString& url, EdgeType eType )
 {
   // Create group nodes
   QCString tmp_str;

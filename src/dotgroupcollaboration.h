@@ -72,7 +72,7 @@ class DotGroupCollaboration : public DotGraph
     };
 
     void buildGraph(const GroupDef* gd);
-    void addCollaborationMember(const Definition* def, URLString& url, EdgeType eType );
+    void addCollaborationMember(const Definition* def, const URLString& url, EdgeType eType );
     void addMemberList( class MemberList* ml );
     void writeGraphHeader(TextStream &t,const QCString &title) const;
     Edge* addEdge( DotNode* _pNStart, DotNode* _pNEnd, EdgeType _eType,

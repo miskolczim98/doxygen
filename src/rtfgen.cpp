@@ -1109,7 +1109,7 @@ void RTFGenerator::endIndexItem(const char *ref,const char *fn)
 //  m_t << "}{\\pageref{" << texm_t << "}}\n";
 //}
 
-void RTFGenerator::startHtmlLink(URLString url)
+void RTFGenerator::startHtmlLink(const URLString& url)
 {
 
   if (Config_getBool(RTF_HYPERLINKS))

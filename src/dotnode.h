@@ -59,7 +59,7 @@ class DotNode
   public:
     static void deleteNodes(DotNode* node);
     static QCString convertLabel(const QCString& l);
-    DotNode(int n,const char *lab,const char *tip,URLString url,
+    DotNode(int n,const char *lab,const char *tip,const URLString& url,
         bool rootNode=FALSE,const ClassDef *cd=0);
     ~DotNode();
 

@@ -87,7 +87,7 @@ class RTFGenerator : public OutputGenerator
                      ) {}
     void startTextLink(const char *f,const char *anchor);
     void endTextLink();
-    void startHtmlLink(URLString url);
+    void startHtmlLink(const URLString& url);
     void endHtmlLink();
     void startTypewriter() { m_t << "{\\f2 "; }
     void endTypewriter()   { m_t << "}";      }

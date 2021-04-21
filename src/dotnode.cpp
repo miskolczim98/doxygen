@@ -286,7 +286,7 @@ static QCString stripProtectionPrefix(const QCString &s)
   }
 }
 
-DotNode::DotNode(int n,const char *lab,const char *tip,URLString url,
+DotNode::DotNode(int n,const char *lab,const char *tip, const URLString& url,
   bool isRoot,const ClassDef *cd)
   : m_number(n)
   , m_label(lab)

@@ -1345,7 +1345,7 @@ void HtmlGenerator::endTextLink()
   m_t << "</a>";
 }
 
-void HtmlGenerator::startHtmlLink(URLString url)
+void HtmlGenerator::startHtmlLink(const URLString& url)
 {
   bool generateTreeView = Config_getBool(GENERATE_TREEVIEW);
   m_t << "<a ";

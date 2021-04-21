@@ -98,7 +98,7 @@ class HtmlHelpRecoder
 /** Class representing a field in the HTML help index. */
 struct IndexField
 {
-  IndexField(const char *k,const char *n, URLString u,const char *a,bool l,bool r) :
+  IndexField(const char *k,const char *n, const URLString& u,const char *a,bool l,bool r) :
     key(k), name(n), url(u), anchor(a), link(l), reversed(r) {}
   QCString key;
   QCString name;
@@ -117,7 +117,7 @@ class HtmlHelpIndex
     HtmlHelpIndex(HtmlHelpRecoder &recoder);
    ~HtmlHelpIndex();
     void addItem(const char *first,const char *second,
-                 URLString url, const char *anchor,
+                 const URLString& url, const char *anchor,
                  bool hasLink,bool reversed);
     void writeFields(std::ostream &t);
     size_t size() const { return m_map.size(); }
@@ -150,7 +150,7 @@ HtmlHelpIndex::~HtmlHelpIndex()
  *         name.
  */
 void HtmlHelpIndex::addItem(const char *level1,const char *level2,
-                       URLString url,const char *anchor,bool hasLink,
+                       const URLString& url,const char *anchor,bool hasLink,
                        bool reversed)
 {
   static const reg::Ex re(R"(@\d+)");

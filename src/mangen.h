@@ -80,7 +80,7 @@ class ManGenerator : public OutputGenerator
                      ) {}
     void startTextLink(const char *,const char *) {}
     void endTextLink() {}
-    void startHtmlLink(URLString url);
+    void startHtmlLink(const URLString& url);
     void endHtmlLink();
     void startTypewriter() { m_t << "\\fC"; m_firstCol=FALSE; }
     void endTypewriter()   { m_t << "\\fP"; m_firstCol=FALSE; }

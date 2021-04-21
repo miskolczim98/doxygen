@@ -1116,7 +1116,7 @@ void LatexGenerator::endIndexItem(const char *ref,const char *fn)
 //}
 
 
-void LatexGenerator::startHtmlLink(URLString url)
+void LatexGenerator::startHtmlLink(const URLString& url)
 {
   if (Config_getBool(PDF_HYPERLINKS))
   {

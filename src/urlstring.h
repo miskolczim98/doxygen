@@ -34,9 +34,15 @@ public:
   int find(const char str) const;
   int findRev(char c, int index = -1, bool cs = true) const;
 
+  friend int urlcmp(const URLString& url, const char* str2);
+  friend int urlcmp(const URLString& url1, const URLString& url2);
+
   URLString stripWhiteSpace() const;
   URLString& prepend(const QCString& str);
   URLString& operator+= (const QCString& str);
+
+  friend QCString operator+(const char* str, const URLString& url);
+  friend QCString operator+(const URLString& url, const char* str);
 
   bool operator==(const URLString& url) const;
   bool isEmpty() const;

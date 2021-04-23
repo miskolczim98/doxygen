@@ -1099,7 +1099,7 @@ void RTFDocVisitor::visitPre(DocHRef *href)
   DBG_RTF("{\\comment RTFDocVisitor::visitPre(DocHRef)}\n");
   if (Config_getBool(RTF_HYPERLINKS))
   {
-    if (href->url()().startsWith("#CITEREF"))
+    if (href->url().startsWith("#CITEREF"))
     {
       // when starting with #CITEREF it is a doxygen generated "url"a
       // so a local link

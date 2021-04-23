@@ -139,7 +139,7 @@ void DotGfxHierarchyTable::addHierarchy(DotNode *n,const ClassDef *cd,ClassDefSe
       }
       else
       {
-        URLString tmp_url="";
+        URLString tmp_url;
         if (bClass->isLinkable() && !bClass->isHidden())
         {
           tmp_url=bClass->getReference()+"$"+bClass->getOutputFileBase();
@@ -195,7 +195,7 @@ void DotGfxHierarchyTable::addClassList(const ClassLinkedMap &cl,ClassDefSet &vi
       cd->isVisibleInHierarchy()
       ) // root node in the forest
     {
-      URLString tmp_url="";
+      URLString tmp_url;
       if (cd->isLinkable() && !cd->isHidden())
       {
         tmp_url=cd->getReference()+"$"+cd->getOutputFileBase();

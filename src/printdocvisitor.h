@@ -84,7 +84,7 @@ class PrintDocVisitor : public DocVisitor
     void visit(DocURL *u)
     {
       indent_leaf();
-      printf("%s",u->url()().data());
+      printf("%s",u->url().data());
     }
     void visit(DocLineBreak *)
     {
@@ -498,7 +498,7 @@ class PrintDocVisitor : public DocVisitor
     void visitPre(DocHRef *href)
     {
       indent_pre();
-      printf("<a url=\"%s\">\n",href->url()().data());
+      printf("<a url=\"%s\">\n",href->url().data());
     }
     void visitPost(DocHRef *)
     {

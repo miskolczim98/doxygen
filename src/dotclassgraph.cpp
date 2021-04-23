@@ -316,7 +316,7 @@ DotClassGraph::DotClassGraph(const ClassDef *cd,GraphType t)
 {
   //printf("--------------- DotClassGraph::DotClassGraph '%s'\n",cd->displayName().data());
   m_graphType = t;
-  URLString tmp_url="";
+  URLString tmp_url;
   if (cd->isLinkable() && !cd->isHidden())
   {
     tmp_url=cd->getReference()+"$"+cd->getOutputFileBase();

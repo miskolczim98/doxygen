@@ -123,6 +123,16 @@ int URLString::findRev(char c, int index, bool cs) const
   return (*this)().findRev(c, index, cs);
 }
 
+int urlcmp(const URLString& url, const char* str2)
+{
+  return qstrcmp(url(), str2);
+}
+
+int urlcmp(const URLString& url1, const URLString& url2)
+{
+  return qstrcmp(url1(), url2());
+}
+
 URLString& URLString::prepend(const QCString& str)
 {
   *this = URLString(str.str() + (*this)());
@@ -133,6 +143,16 @@ URLString& URLString::operator+= (const QCString& str)
 {
   *this = URLString((*this)() + str);
   return *this;
+}
+
+QCString operator+(const char* str, const URLString& url)
+{
+  return url() + str;
+}
+
+QCString operator+(const URLString& url, const char* str)
+{
+  return url() + str;
 }
 
 bool URLString::operator==(const URLString& url) const

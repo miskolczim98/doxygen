@@ -739,7 +739,7 @@ class DocImage : public CompAccept<DocImage>
   public:
     enum Type { Html, Latex, Rtf, DocBook };
     DocImage(DocNode *parent,const HtmlAttribList &attribs,
-             const QCString &name,Type t,const URLString &url=QCString(), bool inlineImage = TRUE);
+             const QCString &name,Type t,const URLString &url=URLString(), bool inlineImage = TRUE);
     Kind kind() const           { return Kind_Image; }
     Type type() const           { return m_type; }
     QCString name() const       { return m_name; }

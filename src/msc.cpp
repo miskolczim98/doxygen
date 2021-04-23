@@ -53,12 +53,12 @@ static bool convertMapFile(TextStream &t,const char *mapName,const QCString relP
     if (qstrncmp(line.c_str(),"rect",4)==0)
     {
       // obtain the url and the coordinates in the order used by graphviz-1.5
-      sscanf(line.c_str(),"rect %s %d,%d %d,%d",url,&x1,&y1,&x2,&y2);
+      sscanf(line.c_str(),"rect %s %d,%d %d,%d",&url,&x1,&y1,&x2,&y2);
 
-      if (qstrcmp(url(),"\\ref")==0 || qstrcmp(url(),"@ref")==0)
+      if (urlcmp(url,"\\ref")==0 || urlcmp(url,"@ref")==0)
       {
         isRef = true;
-        sscanf(line.c_str(),"rect %s %s %d,%d %d,%d",ref,url,&x1,&y1,&x2,&y2);
+        sscanf(line.c_str(),"rect %s %s %d,%d %d,%d",ref,&url,&x1,&y1,&x2,&y2);
       }
 
       // sanity checks

@@ -161,7 +161,7 @@ static QCString replaceRef(const QCString &buf,const QCString relPath,
       }
       else
       {
-        result = href+"=\"" + link() + "\"";
+        result = href+"=\"" + link + "\"";
       }
     }
     else // ref$url (external ref via tag file), or $url (local ref)
@@ -178,11 +178,11 @@ static QCString replaceRef(const QCString &buf,const QCString relPath,
         }
         result+= href+"=\"";
         result+=externalRef(relPath,ref,TRUE);
-        result+= url() + "\"";
+        result+= url + "\"";
       }
       else // should not happen, but handle properly anyway
       {
-        result = href+"=\"" + link() + "\"";
+        result = href+"=\"" + link + "\"";
       }
     }
     if (!target.isEmpty() && !targetAlreadySet)

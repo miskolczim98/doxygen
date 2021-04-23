@@ -37,7 +37,7 @@ void DotInclDepGraph::buildGraph(DotNode *n,const FileDef *fd,int distance)
     }
     if (doc || src || !Config_getBool(HIDE_UNDOC_RELATIONS))
     {
-      URLString url="";
+      URLString url;
       if (bfd) url=bfd->getOutputFileBase().copy();
       if (!doc && src)
       {
@@ -57,7 +57,7 @@ void DotInclDepGraph::buildGraph(DotNode *n,const FileDef *fd,int distance)
         QCString tooltip;
         if (bfd)
         {
-          tmp_url=doc || src ? bfd->getReference()+"$"+url() : QCString();
+          tmp_url=doc || src ? bfd->getReference()+"$"+url : URLString();
           tooltip = bfd->briefDescriptionAsTooltip();
         }
         DotNode *bn = new DotNode(getNextNodeNumber(),// n

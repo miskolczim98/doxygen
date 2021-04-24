@@ -357,7 +357,7 @@ void HtmlDocVisitor::visit(DocURL *u)
     uint size=5,i;
     for (i=0;i<url.length();)
     {
-      filter(url.mid(i,size).c_str());
+      filter(url.mid(i,size));
       if (i<url.length()-size) m_t << "<span style=\"display: none;\">.nosp@m.</span>";
       i+=size;
       if (size==5) size=4; else size=5;

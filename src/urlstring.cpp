@@ -4,8 +4,6 @@
 #include <string>
 #include <algorithm>
 
-#include <iostream>
-
 URLString::URLString()
 {
   _protocol = _userinfo = _host = _port = _path =
@@ -19,9 +17,7 @@ URLString::URLString(const std::string& url)
 
 URLString::URLString(const QCString& url)
 {
-  std::string loc_url = url.str();
-
-  ParseURL(loc_url);
+  ParseURL(url.str());
 }
 
 URLString::URLString(const char* url)
@@ -48,57 +44,55 @@ URLString URLString::stripWhiteSpace() const
 
 const char* URLString::data() const
 {
-  QCString url = (*this)();
-
-  return url.data();
+  return (*this)().data();
 }
 
 char* URLString::rawData()
 {
-  std::string result = (*this)().str();
+  QCString result = (*this)();
 
-  char* y = new char[result.length() + 1];
+  char* y = new char[static_cast<size_t>(result.length()) + 1];
 
-  std::strcpy(y, result.c_str());
+  std::strcpy(y, result);
   return y;
 }
 
-std::string URLString::left(int s) const
+QCString URLString::left(int s) const
 {
   return (*this)().left(s);
 }
 
-std::string URLString::mid(uint index, uint len) const
+QCString URLString::mid(uint index, uint len) const
 {
   return (*this)().mid(index, len);
 }
 
-std::string URLString::right(int s) const
+QCString URLString::right(int s) const
 {
   return (*this)().right(s);
 }
 
-std::string URLString::lower() const
+QCString URLString::lower() const
 {
-  return ((*this)()).lower().str();
+  return ((*this)()).lower();
 }
 
 char& URLString::at(uint location)
 {
-  std::string result = (*this)().str();
+  QCString result = (*this)();
 
-  char* y = new char[result.length() + 1];
-  std::strcpy(y, result.c_str());
+  char* y = new char[static_cast<size_t>(result.length()) + 1];
+  std::strcpy(y, result);
 
   return *(y + location);
 }
 
 const char& URLString::at(uint location) const
 {
-  std::string result = (*this)().str();
+  QCString result = (*this)().str();
 
-  char* y = new char[result.length() + 1];
-  std::strcpy(y, result.c_str());
+  char* y = new char[static_cast<size_t>(result.length()) + 1];
+  std::strcpy(y, result);
 
   return *(y + location);
 }
@@ -166,9 +160,9 @@ bool URLString::isEmpty() const
     _port.empty() && _path.empty() && _query.empty() && _fragment.empty();
 }
 
-bool URLString::startsWith(const std::string& s) const
+bool URLString::startsWith(const char* s) const
 {
-  return (*this)().startsWith(s.c_str());
+  return (*this)().startsWith(s);
 }
 
 void URLString::ParseURL(const std::string& url)
@@ -191,7 +185,7 @@ void URLString::ParseProtocol(const std::string& loc_url)
 
 void URLString::ParseAuthority(const std::string& loc_url)
 {
-  size_t authority_slashes_begin = GetProtocol().size();
+  size_t authority_slashes_begin = GetProtocolSize();
 
   if (authority_slashes_begin < loc_url.size() && loc_url.substr(authority_slashes_begin, 2) == "//")
   {
@@ -265,7 +259,7 @@ void URLString::ParsePort(const std::string& loc_authority)
 
 void URLString::ParsePath(const std::string& loc_url)
 {
-  size_t path_begin = static_cast<size_t>(GetProtocol().size()) + GetAuthority().size();
+  size_t path_begin = GetProtocolSize() + GetAuthoritySize();
 
   size_t first_query_loc = loc_url.substr(path_begin, loc_url.size() - (path_begin)).find("?");
 
@@ -292,7 +286,7 @@ void URLString::ParsePath(const std::string& loc_url)
 
 void URLString::ParseQuery(const std::string& loc_url)
 {
-  size_t query_begin = static_cast<size_t>(GetProtocol().size()) + GetAuthority().size() + GetPath().size();
+  size_t query_begin = GetProtocolSize() + GetAuthoritySize() + GetPathSize();
 
   if (loc_url.size() == query_begin || loc_url.substr(query_begin, 1) != "?")
   {
@@ -317,19 +311,19 @@ void URLString::ParseQuery(const std::string& loc_url)
 
 void URLString::ParseFragment(const std::string& loc_url)
 {
-  size_t fragment_begin = static_cast<size_t>(GetProtocol().size()) + GetAuthority().size() + GetPath().size() + GetQuery().size();
+  size_t fragment_begin = GetProtocolSize() + GetAuthoritySize() + GetPathSize() + GetQuerySize();
 
   _fragment = fragment_begin == loc_url.size() || loc_url.substr(fragment_begin, 1) != "#"
     ? ""
     : loc_url.substr(fragment_begin + 1, loc_url.size() - (fragment_begin + 1));
 }
 
-std::string URLString::GetProtocol() const
+QCString URLString::GetProtocol() const
 {
   return _protocol.empty() ? "" : _protocol + ":";
 }
 
-std::string URLString::GetAuthority() const
+QCString URLString::GetAuthority() const
 {
   if (_host.empty())
     return "";
@@ -340,17 +334,17 @@ std::string URLString::GetAuthority() const
   return "//" + userinfo + _host + port;
 }
 
-std::string URLString::GetPath() const
+QCString URLString::GetPath() const
 {
   return _path;
 }
 
-std::string URLString::GetQuery() const
+QCString URLString::GetQuery() const
 {
   return _query.empty() ? "" : "?" + _query;
 }
 
-std::string URLString::GetFragment() const
+QCString URLString::GetFragment() const
 {
   return _fragment.empty() ? "" : "#" + _fragment;
 }
@@ -358,6 +352,37 @@ std::string URLString::GetFragment() const
 QCString URLString::operator()() const
 {
   return GetProtocol() + GetAuthority() + GetPath() + GetQuery() + GetFragment();
+}
+
+size_t URLString::GetProtocolSize() const
+{
+  return _protocol.empty() ? 0 : _protocol.size() + 1;
+}
+
+size_t URLString::GetAuthoritySize() const
+{
+  if (_host.empty())
+    return 0;
+
+  size_t userinfoSize = !_userinfo.empty() ? _userinfo.size() + 1 : 0;
+  size_t portSize = !_port.empty() ? 1 + _port.size() : 0;
+
+  return 2 + userinfoSize + _host.size() + portSize;
+}
+
+size_t URLString::GetPathSize() const
+{
+  return _path.size();
+}
+
+size_t URLString::GetQuerySize() const
+{
+  return _query.empty() ? 0 : 1 + _query.size();
+}
+
+size_t URLString::GetFragmentSize() const
+{
+  return _fragment.empty() ? 0 : 1 + _fragment.size();
 }
 
 bool URLString::CheckAuthorityValidCharacters(const std::string& loc_authority)

@@ -18,10 +18,10 @@ public:
   const char* data() const;
   char* rawData();
 
-  std::string left(int s) const;
-  std::string mid(uint index, uint len = 0xffffffff) const;
-  std::string right(int s) const;
-  std::string lower() const;
+  QCString left(int s) const;
+  QCString mid(uint index, uint len = 0xffffffff) const;
+  QCString right(int s) const;
+  QCString lower() const;
 
   QCString operator()() const;
 
@@ -46,14 +46,20 @@ public:
 
   bool operator==(const URLString& url) const;
   bool isEmpty() const;
-  bool startsWith(const std::string& s) const;
+  bool startsWith(const char* s) const;
 
 private:
-  std::string GetProtocol() const;
-  std::string GetAuthority() const;
-  std::string GetPath() const;
-  std::string GetQuery() const;
-  std::string GetFragment() const;
+  QCString GetProtocol() const;
+  QCString GetAuthority() const;
+  QCString GetPath() const;
+  QCString GetQuery() const;
+  QCString GetFragment() const;
+
+  size_t GetProtocolSize() const;
+  size_t GetAuthoritySize() const;
+  size_t GetPathSize() const;
+  size_t GetQuerySize() const;
+  size_t GetFragmentSize() const;
 
   void ParseURL(const std::string& url);
   void ParseProtocol(const std::string& url);
